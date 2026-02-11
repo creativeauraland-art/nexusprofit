@@ -8,12 +8,13 @@ from core.safety import SafetyAI
 from core.pseo import PSEOAI
 from core.asset import AssetAI
 from core.mail import MailOrbit
+from core.gumroad import GumroadAI
 import time
 import os
 import random
 
 def update_storefront(products, assets=None):
-    """Injects new products and OWNED ASSETS into index.html."""
+    """Injects new products and AUTOMATED GUMROAD ASSETS into index.html."""
     try:
         with open("index.html", "r", encoding="utf-8") as f:
             content = f.read()
@@ -30,17 +31,17 @@ def update_storefront(products, assets=None):
             </div>
             """
         
-        # 2. Owned Assets (Infinity Scaling)
+        # 2. Automated Owned Assets (100% PROFIT)
         asset_html = ""
         if assets:
             asset_html = "<div style='grid-column: 1/-1; margin-top: 40px;'><h2>💎 Owned Assets (100% Profit)</h2></div>"
             for a in assets:
                 asset_html += f"""
                 <div class="card" style="border-color: #f59e0b;">
-                    <span style="color: #f59e0b; font-size: 0.8rem; font-weight: bold;">[OWNED ASSET]</span>
+                    <span style="color: #f59e0b; font-size: 0.8rem; font-weight: bold;">[AUTOMATED ASSET]</span>
                     <h2>{a['name']}</h2>
-                    <p>Exclusive guide to {a['niche']}. Instant digital delivery.</p>
-                    <a href="#" class="btn" style="background: #f59e0b;">Get Access for $7</a>
+                    <p>Exclusive {a['niche']} Insight. Instant Gumroad delivery.</p>
+                    <a href="{a['link']}" class="btn" style="background: #f59e0b;" target="_blank">Get Access for $7</a>
                 </div>
                 """
 
@@ -54,13 +55,15 @@ def update_storefront(products, assets=None):
             
             with open("index.html", "w", encoding="utf-8") as f:
                 f.write(new_content)
-            print("[Engine] Storefront updated with products and owned assets.")
+            print("[Engine] Storefront updated with live Gumroad assets.")
     except Exception as e:
         print(f"[Engine] Storefront update failed: {e}")
 
 def main():
     USER_ID = "creative_aura"
-    print(f"--- NexusProfit | INFINITY SCALING | USER: {USER_ID} ---")
+    GUMROAD_TOKEN = "uEGG-B5gUwPJO-5EGMShiOk16q5hbBZL6FBFV5PTS8s"
+    
+    print(f"--- NexusProfit | GUMROAD MASTERY | USER: {USER_ID} ---")
     
     scout = ScoutAI()
     persona = PersonaAI()
@@ -72,6 +75,7 @@ def main():
     pseo = PSEOAI()
     asset_gen = AssetAI()
     mail_orbit = MailOrbit()
+    gumroad = GumroadAI(GUMROAD_TOKEN)
     
     GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
     NICHES = ["AI Automation", "Content Creation", "Crypto Tech", "Biohacking", "Green Tech"]
@@ -81,28 +85,33 @@ def main():
     rss_items = []
     
     for niche in NICHES:
-        print(f"\n--- Infinity Orbit: {niche} ---")
+        print(f"\n--- Multi-Path Orbit: {niche} ---")
         
-        # 1. Product & Asset Sourcing
+        # 1. Source High-Ticket Product
         product = link_ai.get_next_product()
-        
-        # ZERO-RISK check
         if not safety.validate_link(product['link']):
             continue
 
-        # 2. Asset Inversion (OWNERSHIP)
-        # We generate a PDF guide for every 2nd niche to diversify
-        if random.random() > 0.5:
-            asset_path = asset_gen.generate_cheat_sheet(niche, product['name'])
-            assets_to_list.append({"name": f"{niche} Master Guide", "niche": niche, "path": asset_path})
+        # 2. Automated Asset Factory (Owner Mode)
+        # Every run, create a niche specific guide and push to Gumroad
+        asset_file = asset_gen.generate_cheat_sheet(niche, product['name'])
+        if asset_file:
+            gumroad_link = gumroad.create_and_upload_product(
+                name=f"{niche} Profit Blueprint 2025",
+                description=f"Automated high-value guide for mastering {niche}.",
+                price_cents=700,
+                file_path=asset_file
+            )
+            if gumroad_link:
+                assets_to_list.append({"name": f"{niche} Elite Guide", "niche": niche, "link": gumroad_link})
 
-        # 3. Content Creation
+        # 3. Viral Content Loop
         hook = persona.generate_viral_hook(product['name'], niche)
         timestamp = int(time.time())
         safe_name = product['name'].replace(" ", "_").lower()[:10]
         
         img_path = f"assets/{safe_name}_{timestamp}.png"
-        persona.generate_pin_image(hook, f"The {niche} Blueprint", img_path)
+        persona.generate_pin_image(hook, f"Verified in {niche}", img_path)
         
         audio_path = f"assets/audio/{safe_name}_{timestamp}.mp3"
         vocal.generate_voiceover(hook, audio_path)
@@ -110,28 +119,22 @@ def main():
         video_path = f"assets/reels/{safe_name}_{timestamp}.mp4"
         motion.generate_reel(img_path, hook, audio_path=audio_path, output_path=video_path)
         
-        # 4. pSEO Page
+        # 4. Global Hub Sync
         page_path = pseo.generate_review_page(product)
-
-        # 5. Sync Data
         products_to_list.append(product)
         rss_items.append({
             "title": hook,
             "link": f"{GH_PAGES_BASE}/{page_path}",
-            "description": f"Exclusive Insider Info: {niche}",
+            "description": f"Internal Review: {niche}",
             "image_url": f"{GH_PAGES_BASE}/{img_path}"
         })
         
         safety.mimetic_delay(1, 2)
 
-    # 6. Weekly Newsletter Compilation (Mail Orbit)
-    newsletter_path = mail_orbit.generate_newsletter(products_to_list, int(time.time() / 604800))
-    print(f"[MailOrbit] Newsletter Ready: {newsletter_path}")
-
-    # 7. Deployment
+    # 5. Deployment & Revenue Sync
     update_storefront(products_to_list, assets_to_list)
     rss_ai.generate_rss(rss_items, "rss.xml")
-    print("\n--- Infinity Cycle Finished: You are now a Product Owner ---")
+    print("\n--- Cycle Finished: Gumroad Store & Website are Synced ---")
 
 if __name__ == "__main__":
     main()
