@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusProfit | Premium Handpicked Deals</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: rgba(30, 41, 59, 0.7);
+            --accent: #38bdf8;
+            --text: #f8fafc;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 600px;
+            width: 100%;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .header h1 {
+            color: var(--accent);
+            font-size: 2.5rem;
+            letter-spacing: -1px;
+        }
+        .card {
+            background: var(--card);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+        .btn {
+            display: block;
+            background: var(--accent);
+            color: var(--bg);
+            text-align: center;
+            padding: 1rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>NexusProfit</h1>
+            <p>Curated High-Value Assets & Tools</p>
+        </div>
+        
+        <div class="card">
+            <h2>Ultimate AI Automation Course</h2>
+            <p>Master the tools that make you money. Limited time offer.</p>
+            <a href="#" class="btn">Access Now</a>
+        </div>
+
+        <div class="card">
+            <h2>SaaS Starter Kit</h2>
+            <p>Launch your business in 24 hours with our proven template.</p>
+            <a href="#" class="btn">Access Now</a>
+        </div>
+    </div>
+</body>
+</html>
