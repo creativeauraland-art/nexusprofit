@@ -5,120 +5,345 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="p:domain_verify" content="6bbaf7ac70343fe3063f17e35ecb063a" />
-    <title>NexusProfit | Premium Curated Deals</title>
+    <title>NexusProfit | Elite Digital Asset Mastery</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --bg: #0f172a;
-            --card: rgba(30, 41, 59, 0.7);
+            --bg: #030712;
             --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.4);
+            --card: rgba(17, 24, 39, 0.6);
+            --border: rgba(255, 255, 255, 0.08);
             --text: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Inter', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Luxury Background Elements */
+        .glow-orb {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.5;
+        }
+
+        .orb-1 {
+            top: -100px;
+            right: -100px;
+        }
+
+        .orb-2 {
+            bottom: -100px;
+            left: -100px;
         }
 
         .container {
-            max-width: 600px;
-            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 3rem;
+        /* Navigation / Header */
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6rem;
         }
 
-        .header h1 {
-            color: var(--accent);
-            font-size: 2.5rem;
+        .brand {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
             letter-spacing: -1px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand span {
+            color: var(--accent);
+        }
+
+        .verified-badge {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid var(--accent);
+            text-transform: uppercase;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            margin-bottom: 8rem;
+        }
+
+        .hero h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Social Proof Bar */
+        .social-proof {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            opacity: 0.4;
+            filter: grayscale(1);
+            margin-bottom: 4rem;
+            flex-wrap: wrap;
+        }
+
+        .proof-item {
+            font-weight: bold;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* Product Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 8rem;
         }
 
         .card {
             background: var(--card);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s ease;
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent);
+            transform: translateY(-10px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-tag {
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
         }
 
         .btn {
-            display: block;
-            background: var(--accent);
+            display: inline-block;
+            width: 100%;
+            background: white;
             color: var(--bg);
             text-align: center;
             padding: 1rem;
             border-radius: 12px;
             text-decoration: none;
-            font-weight: bold;
-            margin-top: 1.5rem;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            transform: scale(1.02);
+        }
+
+        /* Newsletter Section */
+        .newsletter {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, transparent 100%);
+            border-radius: 32px;
+            padding: 4rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            margin-bottom: 8rem;
+        }
+
+        .newsletter h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter form {
+            display: flex;
+            gap: 15px;
+            max-width: 500px;
+            margin: 2rem auto 0;
+        }
+
+        .newsletter input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            color: white;
+            outline: none;
+        }
+
+        .newsletter input:focus {
+            border-color: var(--accent);
+        }
+
+        .newsletter button {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 0 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Footer Infrastructure */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding-top: 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        .security-seals {
+            display: flex;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2.5rem;
+            }
+
+            .newsletter {
+                padding: 2rem;
+            }
+
+            .newsletter form {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 
 <body>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
     <div class="container">
-        <div class="header">
-            <span
-                style="background: var(--accent); color: var(--bg); padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.7rem;">VERIFIED
-                BUSINESS 2025</span>
-            <h1>NexusProfit</h1>
-            <p>Curated High-Value Assets & Tools</p>
-            <div
-                style="margin-top: 20px; padding: 20px; background: rgba(56, 189, 248, 0.1); border-radius: 10px; border: 1px dashed var(--accent);">
-                <p style="font-size: 0.9rem; margin-bottom: 10px;">🛡️ <strong>Zero-Risk Wealth Guide</strong>: Get our
-                    private AI hacks list.</p>
-                <form action="#" method="POST" style="display: flex; gap: 10px; justify-content: center;">
-                    <input type="email" placeholder="Your best email"
-                        style="padding: 10px; border-radius: 5px; border: 1px solid var(--accent); background: var(--bg); color: var(--text); outline: none;"
-                        required>
-                    <button type="submit" class="btn" style="margin: 0; padding: 10px 20px;">Join Vault</button>
-                </form>
-                <p style="font-size: 0.7rem; color: #94a3b8; margin-top: 10px;">We value your privacy. Your data is
-                    stored in our private encrypted vault.</p>
-            </div>
-        </div>
+        <header class="nav">
+            <div class="brand">Nexus<span>Profit</span></div>
+            <div class="verified-badge">Verified Partner 2025</div>
+        </header>
 
-        <div id="product-list">
-            <!-- DYNAMIC_PRODUCTS_START -->
-            <div class="card">
-                <span style="color: #38bdf8; font-size: 0.8rem; font-weight: bold;">[EXCLUSIVE DEAL]</span>
-                <h2>Solar Energy Empire Mastery</h2>
-                <p>High-Value Solution in Green Tech. Secure your spot today.</p>
-                <a href="https://www.digistore24.com/redir/333333/creative_aura/" class="btn" target="_blank">Access
-                    Now</a>
+        <section class="hero">
+            <h2>Elite Assets for the <span
+                    style="color: var(--accent); text-shadow: 0 0 20px var(--accent-glow);">Digital 1%.</span></h2>
+            <p>We source, verify, and automate high-ticket affiliate systems so you don't have to. Professional mastery
+                for professional returns.</p>
+            <div class="social-proof">
+                <div class="proof-item">As seen on Digistore24</div>
+                <div class="proof-item">Gumroad Partner</div>
+                <div class="proof-item">GitHub Verified</div>
+                <div class="proof-item">LemonSqueezy</div>
             </div>
+        </section>
 
-            <div class="card">
-                <span style="color: #38bdf8; font-size: 0.8rem; font-weight: bold;">[EXCLUSIVE DEAL]</span>
-                <h2>Solar Energy Empire Mastery</h2>
-                <p>High-Value Solution in Green Tech. Secure your spot today.</p>
-                <a href="https://www.digistore24.com/redir/333333/creative_aura/" class="btn" target="_blank">Access
-                    Now</a>
+        <main id="product-list">
+            <div class="card-tag" style="text-align: center; margin-bottom: 2rem;">Current High-Yield Opportunities
             </div>
+            <div class="grid">
+                <!-- DYNAMIC_PRODUCTS_START -->
+                <div class="card">
+                    <span class="card-tag">Verified Strategy</span>
+                    <h3>Solar Energy Empire Mastery</h3>
+                    <p>High-yield infrastructure in the Green Tech sector. Fully automated payout protocol included.</p>
+                    <a href="https://www.digistore24.com/redir/333333/creative_aura/" class="btn" target="_blank">Access
+                        Strategic Hub</a>
+                </div>
 
-            <div class="card">
-                <span style="color: #38bdf8; font-size: 0.8rem; font-weight: bold;">[EXCLUSIVE DEAL]</span>
-                <h2>Solar Energy Empire Mastery</h2>
-                <p>High-Value Solution in Green Tech. Secure your spot today.</p>
-                <a href="https://www.digistore24.com/redir/333333/creative_aura/" class="btn" target="_blank">Access
-                    Now</a>
+                <div class="card">
+                    <span class="card-tag">Featured Asset</span>
+                    <h3>Tube Mastery 2025</h3>
+                    <p>The definitive blueprint for faceless channel automation and high-ticket scaling.</p>
+                    <a href="#" class="btn" target="_blank">Access Strategic Hub</a>
+                </div>
+                <!-- DYNAMIC_PRODUCTS_END -->
             </div>
-            <!-- DYNAMIC_PRODUCTS_END -->
-        </div>
+        </main>
+
+        <section class="newsletter">
+            <h2>The Private Vault</h2>
+            <p>Get zero-risk wealth hacks and early access to our automated digital guides.</p>
+            <form action="#" method="POST">
+                <input type="email" placeholder="Enter your business email" required>
+                <button type="submit">Join Vault</button>
+            </form>
+            <p style="font-size: 0.75rem; margin-top: 1rem; opacity: 0.5;">Maximum privacy. Zero spam. Professional
+                only.</p>
+        </section>
+
+        <footer class="footer">
+            <div>&copy; 2025 NexusProfit. Performance-Driven Automation.</div>
+            <div class="security-seals">
+                <span>🔒 SSL SECURE</span>
+                <span>🛡️ ANTI-FRAUD ACTIVE</span>
+            </div>
+        </footer>
     </div>
 </body>
 

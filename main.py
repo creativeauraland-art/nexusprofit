@@ -23,25 +23,25 @@ def update_storefront(products, assets=None):
         product_html = ""
         for p in products:
             product_html += f"""
-            <div class="card">
-                <span style="color: #38bdf8; font-size: 0.8rem; font-weight: bold;">[EXCLUSIVE DEAL]</span>
-                <h2>{p['name']}</h2>
-                <p>High-Value Solution in {p['niche']}. Secure your spot today.</p>
-                <a href="{p['link']}" class="btn" target="_blank">Access Now</a>
-            </div>
+                <div class="card">
+                    <span class="card-tag">Verified Strategy</span>
+                    <h3>{p['name']}</h3>
+                    <p>High-yield infrastructure in the {p['niche']} sector. Fully automated payout protocol included.</p>
+                    <a href="{p['link']}" class="btn" target="_blank">Access Strategic Hub</a>
+                </div>
             """
         
         # 2. Automated Owned Assets (100% PROFIT)
         asset_html = ""
         if assets:
-            asset_html = "<div style='grid-column: 1/-1; margin-top: 40px;'><h2>💎 Owned Assets (100% Profit)</h2></div>"
+            asset_html = "<div style='grid-column: 1/-1; margin-top: 40px;'><div class='card-tag' style='text-align: center; font-size: 1.5rem;'>💎 Owned Assets (100% Profit)</div></div>"
             for a in assets:
                 asset_html += f"""
-                <div class="card" style="border-color: #f59e0b;">
-                    <span style="color: #f59e0b; font-size: 0.8rem; font-weight: bold;">[AUTOMATED ASSET]</span>
-                    <h2>{a['name']}</h2>
-                    <p>Exclusive {a['niche']} Insight. Instant Gumroad delivery.</p>
-                    <a href="{a['link']}" class="btn" style="background: #f59e0b;" target="_blank">Get Access for $7</a>
+                <div class="card" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
+                    <span class="card-tag" style="color: #f59e0b;">Premium Asset</span>
+                    <h3>{a['name']}</h3>
+                    <p>Exclusive {a['niche']} Insight. Instant Gumroad delivery for maximum ROI.</p>
+                    <a href="{a['link']}" class="btn" style="background: #f59e0b; color: #000;" target="_blank">Get Access for $7</a>
                 </div>
                 """
 
