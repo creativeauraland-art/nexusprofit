@@ -4,12 +4,14 @@ import os
 from core.scout import ScoutAI
 from core.persona import PersonaAI
 from core.rss import RSSAI
+from core.motion import MotionAI
 
 def main():
-    print("--- NexusProfit RSS Engine Started ---")
+    print("--- NexusProfit Multi-Platform Engine Started ---")
     scout = ScoutAI()
     persona = PersonaAI()
     rss_ai = RSSAI()
+    motion = MotionAI()
     
     # Base URL for assets on GitHub Pages
     GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
@@ -28,23 +30,28 @@ def main():
             desc = f"Get this {product['name']} and start earning {product['commission']}$ commissions! #affiliate #money"
             safe_trend = trend.replace(" ", "_").lower()
             timestamp = int(time.time())
-            filename = f"assets/{safe_trend}_{timestamp}.png"
             
-            persona.generate_pin_image(title, desc, filename)
+            # Static Pin
+            img_path = f"assets/{safe_trend}_{timestamp}.png"
+            persona.generate_pin_image(title, desc, img_path)
             
-            # 4. Prepare RSS Item
+            # Motion Reel (Instagram/YouTube)
+            video_path = f"assets/reels/{safe_trend}_{timestamp}.mp4"
+            motion.generate_reel(img_path, title, output_path=video_path)
+            
+            # 4. Prepare RSS Item (Pinterest)
             rss_items.append({
                 "title": title,
-                "link": f"{GH_PAGES_BASE}/bridge/index.html",
+                "link": f"{GH_PAGES_BASE}/index.html",
                 "description": desc,
-                "image_url": f"{GH_PAGES_BASE}/{filename}"
+                "image_url": f"{GH_PAGES_BASE}/{img_path}"
             })
             
-            print(f"Prepared RSS entry for: {title}")
+            print(f"Engine Cycle Complete: {title}")
             
     # 5. Generate/Update RSS Feed
     rss_ai.generate_rss(rss_items, "rss.xml")
-    print("--- RSS Feed Updated Successfully ---")
+    print("--- Engine Cycle Finished Successfully ---")
 
 if __name__ == "__main__":
     main()
