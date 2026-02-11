@@ -4,8 +4,11 @@ from core.rss import RSSAI
 from core.motion import MotionAI
 from core.link import LinkAI
 from core.vocal import VocalAI
+from core.safety import SafetyAI
+from core.pseo import PSEOAI
 import time
 import os
+import random
 
 def update_storefront(products):
     """Injects new products into index.html for a dynamic storefront."""
@@ -40,7 +43,7 @@ def update_storefront(products):
 
 def main():
     USER_ID = "creative_aura"
-    print(f"--- NexusProfit | $1,000/Day Mode | USER: {USER_ID} ---")
+    print(f"--- NexusProfit | ZERO-RISK MODE | USER: {USER_ID} ---")
     
     scout = ScoutAI()
     persona = PersonaAI()
@@ -48,58 +51,65 @@ def main():
     motion = MotionAI()
     link_ai = LinkAI(USER_ID)
     vocal = VocalAI()
+    safety = SafetyAI()
+    pseo = PSEOAI()
     
     GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
-    
-    # List of High-Value Niches to Orbit
     NICHES = ["AI Automation", "Content Creation", "Crypto Tech", "Biohacking", "Green Tech"]
     
     products_to_list = []
     rss_items = []
     
     for niche in NICHES:
-        print(f"\n--- Orbiting Niche: {niche} ---")
+        print(f"\n--- Safely Orbiting Niche: {niche} ---")
         
-        # 1. Select High-Ticket Product
-        # We find a product matching the niche or pick a random high-ticket one
+        # 1. Select and Validate High-Ticket Product
         product = link_ai.get_next_product()
         
-        # 2. Brillian Hook Generation (Smart Work)
+        # ZERO-RISK: Link Validation
+        if not safety.validate_link(product['link']):
+            print(f"[Safety] Skipping insecure link for {product['name']}")
+            continue
+
+        # 2. Viral Hook Generation
         hook = persona.generate_viral_hook(product['name'], niche)
-        print(f"[SmartAI] Hook Generated: {hook}")
         
         # 3. Assets Generation
         timestamp = int(time.time())
         safe_name = product['name'].replace(" ", "_").lower()[:10]
         
-        # Static Image
+        # Visuals
         img_path = f"assets/{safe_name}_{timestamp}.png"
-        persona.generate_pin_image(hook, f"Earn {product['commission']} with {product['name']}", img_path)
+        persona.generate_pin_image(hook, f"Verified offer in {niche}", img_path)
         
-        # Voiceover
+        # Audio
         audio_path = f"assets/audio/{safe_name}_{timestamp}.mp3"
         vocal.generate_voiceover(hook, audio_path)
         
-        # Hyper-Reel (Reel + Voice)
+        # Video
         video_path = f"assets/reels/{safe_name}_{timestamp}.mp4"
         motion.generate_reel(img_path, hook, audio_path=audio_path, output_path=video_path)
         
-        # 4. Sync
+        # 4. pSEO: Generate Organic Review Page (Search Engine Shield)
+        page_path = pseo.generate_review_page(product)
+        print(f"[pSEO] Review Page Generated: {page_path}")
+
+        # 5. Preparing for sync
         products_to_list.append(product)
         rss_items.append({
             "title": hook,
-            "link": f"{GH_PAGES_BASE}/index.html",
-            "description": f"Check out {product['name']} - {hook}",
+            "link": f"{GH_PAGES_BASE}/{page_path}", # Direct traffic to SEO page first
+            "description": f"Internal Review: {product['name']}",
             "image_url": f"{GH_PAGES_BASE}/{img_path}"
         })
         
-        # Randomized delay (Zero-Ban safety)
-        time.sleep(random.randint(2, 5))
+        # ZERO-BAN: Mimetic Jitter
+        safety.mimetic_delay(1, 3) # Short delay for demo, use (60, 240) for real actions
 
-    # 5. Global Deployment
+    # 6. Global Deployment
     update_storefront(products_to_list)
     rss_ai.generate_rss(rss_items, "rss.xml")
-    print("\n--- Hyper-Growth Cycle Finished: All Platforms Live ---")
+    print("\n--- Zero-Risk Cycle Finished: Safety Protocols Verified ---")
 
 if __name__ == "__main__":
     main()
