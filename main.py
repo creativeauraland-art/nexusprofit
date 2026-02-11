@@ -111,7 +111,8 @@ def main():
         safe_name = product['name'].replace(" ", "_").lower()[:10]
         
         img_path = f"assets/{safe_name}_{timestamp}.png"
-        persona.generate_pin_image(hook, f"Verified in {niche}", img_path, niche=niche)
+        style = random.choice(["designer", "viral_lifestyle", "money_maker"])
+        persona.generate_pin_image(hook, f"Verified in {niche}", img_path, niche=niche, style=style)
         
         audio_path = f"assets/audio/{safe_name}_{timestamp}.mp3"
         vocal.generate_voiceover(hook, audio_path)
