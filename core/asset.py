@@ -1,0 +1,50 @@
+import google.generativeai as genai
+import os
+
+class AssetAI:
+    """
+    AssetAI: Automatically generates digital products (Guides, Cheat Sheets) for 100% profit.
+    """
+    def __init__(self):
+        # Configure Gemini
+        api_key = os.getenv("GEMINI_API_KEY")
+        if api_key:
+            genai.configure(api_key=api_key)
+            self.model = genai.GenerativeModel('gemini-1.5-flash')
+        else:
+            self.model = None
+
+    def generate_cheat_sheet(self, niche, product_name):
+        """Generates a high-value text-based cheat sheet/guide for a specific product."""
+        print(f"[AssetAI] Designing Digital Product for {niche}...")
+        
+        if not self.model:
+            return f"The Starter Guide to {niche}"
+            
+        prompt = (
+            f"Write a 300-word 'Secret Cheat Sheet' for {niche}. "
+            f"Focus on the topic of {product_name}. "
+            f"Make it sound extremely valuable and professional. "
+            f"Use bullet points and a punchy 'Executive Summary' style. "
+            f"Include a 'Pro Tip' section at the end."
+        )
+        
+        try:
+            response = self.model.generate_content(prompt)
+            content = response.text
+            
+            # Save as a local text asset that can be 'delivered' via a bridge
+            os.makedirs("assets/products", exist_ok=True)
+            filename = f"assets/products/{niche.lower().replace(' ', '_')}_guide.txt"
+            with open(filename, "w", encoding="utf-8") as f:
+                f.write(f"--- NEXUSPROFIT EXCLUSIVE: {niche.upper()} GUIDE ---\n\n")
+                f.write(content)
+            
+            return filename
+        except Exception as e:
+            print(f"[AssetAI] Generation failed: {e}")
+            return None
+
+if __name__ == "__main__":
+    asset_ai = AssetAI()
+    asset_ai.generate_cheat_sheet("AI Automation", "Productivity Hacks")
