@@ -111,7 +111,7 @@ def main():
         safe_name = product['name'].replace(" ", "_").lower()[:10]
         
         img_path = f"assets/{safe_name}_{timestamp}.png"
-        persona.generate_pin_image(hook, f"Verified in {niche}", img_path)
+        persona.generate_pin_image(hook, f"Verified in {niche}", img_path, niche=niche)
         
         audio_path = f"assets/audio/{safe_name}_{timestamp}.mp3"
         vocal.generate_voiceover(hook, audio_path)
@@ -132,9 +132,28 @@ def main():
         safety.mimetic_delay(1, 2)
 
     # 5. Deployment & Revenue Sync
-    update_storefront(products_to_list, assets_to_list)
-    rss_ai.generate_rss(rss_items, "rss.xml")
-    print("\n--- Cycle Finished: Gumroad Store & Website are Synced ---")
+    try:
+        update_storefront(products_to_list, assets_to_list)
+        rss_ai.generate_rss(rss_items, "rss.xml")
+        
+        # 6. AUTOMATED LIVE PUSH (Fixes 404 Errors)
+        print("\n[Engine] Syncing with Cloud (GitHub)...")
+        os.system("git add .")
+        os.system('git commit -m "Auto-Update: New Elite Assets & Review Pages"')
+        os.system("git push origin main")
+        
+        print("\n--- Cycle Finished: Global Hub is LIVE and Synced ---")
+    except Exception as e:
+        print(f"[Engine] Deployment failed: {e}")
 
 if __name__ == "__main__":
-    main()
+    while True:
+        try:
+            main()
+            print("\n[Sleeping] Next cycle in 6 hours...")
+            time.sleep(60 * 60 * 6) # 6 Hour Loop
+        except KeyboardInterrupt:
+            break
+        except Exception as e:
+            print(f"[Engine Error] {e}")
+            time.sleep(60)

@@ -1,4 +1,5 @@
 ﻿from moviepy import ImageClip, TextClip, CompositeVideoClip, ColorClip, AudioFileClip
+import os
 
 class MotionAI:
     """

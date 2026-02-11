@@ -26,6 +26,11 @@ class GumroadAI:
         try:
             # Step 1: Create Product
             response = requests.post(create_url, data=data)
+            
+            if response.status_code != 200:
+                print(f"[GumroadAI] Response Error ({response.status_code}): {response.text[:100]}")
+                return None
+                
             product_data = response.json()
             
             if not product_data.get("success"):
