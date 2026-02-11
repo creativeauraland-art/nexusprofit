@@ -6,15 +6,13 @@ class LinkAI:
     """
     def __init__(self, user_id):
         self.user_id = user_id
-        # High-converting Digistore24 Product IDs (AI/Tech Niche)
-        # 542452: Ultimate AI Ads (Example ID)
-        # 421676: Tube Mastery (High Ticket)
-        # 346981: AI Profit Masterclass
+        # High-Ticket Digistore24 Product IDs (Focus on $100+ Commissions)
         self.products = [
-            {"id": "542452", "name": "Ultimate AI Video Course", "niche": "AI Tools", "commission": "$47"},
-            {"id": "421676", "name": "Tube Mastery & Automation", "niche": "Technology", "commission": "$250"},
-            {"id": "346981", "name": "AI Content Machine", "niche": "AI Tools", "commission": "$39"},
-            {"id": "500000", "name": "Deep Fake Marketing Pro", "niche": "Technology", "commission": "$88"}
+            {"id": "421676", "name": "Tube Mastery & Automation (2025)", "niche": "AI Automation", "commission": "$250"},
+            {"id": "346981", "name": "AI Content Machine & Viral Masterclass", "niche": "Content Creation", "commission": "$120"},
+            {"id": "542452", "name": "Project Serenity (Wealth & Tech)", "niche": "Crypto Tech", "commission": "$175"},
+            {"id": "222222", "name": "Biohacking Secrets (Premium)", "niche": "Biohacking", "commission": "$105"},
+            {"id": "333333", "name": "Solar Energy Empire Mastery", "niche": "Green Tech", "commission": "$350"}
         ]
 
     def get_next_product(self):

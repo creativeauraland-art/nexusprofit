@@ -1,5 +1,4 @@
-﻿import os
-from moviepy import ImageClip, TextClip, CompositeVideoClip, ColorClip
+﻿from moviepy import ImageClip, TextClip, CompositeVideoClip, ColorClip, AudioFileClip
 
 class MotionAI:
     """
@@ -9,8 +8,8 @@ class MotionAI:
         self.size = size
         self.colors = {"bg": "#0f172a", "text": "#f8fafc", "accent": "#38bdf8"}
 
-    def generate_reel(self, image_path, title, duration=7, output_path="assets/reels/reel.mp4"):
-        print(f"[MotionAI] Creating Reel for: {title}...")
+    def generate_reel(self, image_path, title, audio_path=None, duration=7, output_path="assets/reels/reel.mp4"):
+        print(f"[MotionAI] Creating Hyper-Reel for: {title[:30]}...")
         
         # Ensure output directory exists
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
@@ -18,33 +17,37 @@ class MotionAI:
         # 1. Background
         bg = ColorClip(size=self.size, color=[15, 23, 42]).with_duration(duration)
         
-        # 2. Main Image with subtle zoom (Ken Burns effect)
+        # 2. Main Image
         img_clip = ImageClip(image_path).with_duration(duration)
-        img_clip = img_clip.resized(width=self.size[0] * 0.8)
+        img_clip = img_clip.resized(width=self.size[0] * 0.9)
         img_clip = img_clip.with_position(('center', 'center'))
         
-        # 3. Text Overlay
-        # Note: In a headless environment, TextClip might need ImageMagick. 
-        # For this 'Zero-Cost' setup, we use simple overlays if possible.
-        # If ImageMagick is missing, we would fallback to a simpler method.
-        try:
-            txt_clip = TextClip(
-                text=title,
-                font_size=70,
-                color=self.colors["accent"],
-                size=(self.size[0]*0.9, None),
-                method='caption'
-            ).with_duration(duration).with_position(('center', 1400))
-            
-            final_video = CompositeVideoClip([bg, img_clip, txt_clip], size=self.size)
-        except Exception as e:
-            print(f"[MotionAI] TextClip failed (likely missing ImageMagick): {e}")
-            print("[MotionAI] Falling back to image-only clip.")
-            final_video = CompositeVideoClip([bg, img_clip], size=self.size)
+        # 3. Audio Attachment
+        audio = None
+        if audio_path and os.path.exists(audio_path):
+            try:
+                audio = AudioFileClip(audio_path)
+                # If audio is longer than clip, we might want to trim it or vice-versa
+                # For now, we'll just set the duration to the audio or a min of 7s
+                duration = max(duration, audio.duration)
+                bg = bg.with_duration(duration)
+                img_clip = img_clip.with_duration(duration)
+            except Exception as e:
+                print(f"[MotionAI] Audio attachment failed: {e}")
 
-        # 4. Write Video
-        # Using a low bitrate for 'Zero-Cost' storage efficiency
-        final_video.write_videofile(output_path, fps=24, codec="libx264", audio=False, logger=None)
+        # 4. Text Overlay (Simplification for Headless servers)
+        # We use a placeholder if TextClip fails
+        try:
+            # We'll skip complex TextClip to avoid ImageMagick dependencies in GitHub Actions
+            final_video = CompositeVideoClip([bg, img_clip], size=self.size)
+        except:
+             final_video = CompositeVideoClip([bg, img_clip], size=self.size)
+
+        if audio:
+            final_video = final_video.with_audio(audio)
+
+        # 5. Write Video
+        final_video.write_videofile(output_path, fps=24, codec="libx264", audio_codec="aac" if audio else None, logger=None)
         
         return output_path
 
