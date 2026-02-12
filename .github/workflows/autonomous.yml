@@ -3,7 +3,7 @@ name: NexusProfit Autonomous Loop
 on:
   schedule:
     - cron: '0 */6 * * *'  # Run every 6 hours
-  push:                  # Auto-trigger on push
+  push:                  # Auto-trigger on push for faster iteration
     branches: [main]
   workflow_dispatch:      # Manual trigger
 
@@ -31,7 +31,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install --no-cache-dir --force-reinstall -r requirements.txt
-          python -m pip show google-generativeai
 
       - name: Configure Git
         run: |
@@ -44,8 +43,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GUMROAD_TOKEN: ${{ secrets.GUMROAD_TOKEN }}
         run: |
-          echo "[DIAG] Verifying File Structure in CI..."
-          ls -R core/
-          echo "[DIAG] Verifying core/pseo.py in CI..."
-          cat -n core/pseo.py | head -n 30
+          echo "[DIAG] VERSION 2.5-PROD Heartbeat"
+          echo "[DIAG] Verifying core/pseo.py content..."
+          cat -n core/pseo.py | head -n 20
           python main.py

@@ -1,27 +1,26 @@
-import google.generativeai as genai
+from google import genai
 import os
 
-print("[DIAG] core/asset.py loaded: VERSION 2.4-PROD")
+print("[DIAG] core/asset.py loaded: VERSION 2.5-PROD")
 
 class AssetAI:
     """
     AssetAI: Automatically generates digital products (Guides, Cheat Sheets) for 100% profit.
     """
     def __init__(self):
-        # Configure Gemini
+        # Configure New Gemini SDK
         api_key = os.getenv("GEMINI_API_KEY")
         if api_key:
-            genai.configure(api_key=api_key)
-            # Use canonical model name to avoid 404s
-            self.model = genai.GenerativeModel('models/gemini-1.5-flash')
+            self.client = genai.Client(api_key=api_key)
+            self.model_id = "gemini-1.5-flash"
         else:
-            self.model = None
+            self.client = None
 
     def generate_cheat_sheet(self, niche, product_name):
-        """Generates a high-value text-based cheat sheet/guide for a specific product."""
+        """Generates a high-value text-based cheat sheet/guide using the new SDK."""
         print(f"[AssetAI] Designing Digital Product for {niche}...")
         
-        if not self.model:
+        if not self.client:
             return f"The Starter Guide to {niche}"
             
         prompt = (
@@ -33,7 +32,10 @@ class AssetAI:
         )
         
         try:
-            response = self.model.generate_content(prompt)
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=prompt
+            )
             content = response.text
             
             # Save as a local text asset that can be 'delivered' via a bridge

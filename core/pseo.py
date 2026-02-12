@@ -1,8 +1,8 @@
 import os
 import random
-import google.generativeai as genai
+from google import genai
 
-print("[DIAG] core/pseo.py loaded: VERSION 2.4-PROD")
+print("[DIAG] core/pseo.py loaded: VERSION 2.5-PROD")
 
 class PSEOAI:
     """
@@ -11,17 +11,17 @@ class PSEOAI:
     def __init__(self, output_dir="reviews"):
         self.output_dir = output_dir
         os.makedirs(self.output_dir, exist_ok=True)
-        # Configure Gemini
+        # Configure New Gemini SDK
         api_key = os.getenv("GEMINI_API_KEY")
         if api_key:
-            genai.configure(api_key=api_key)
-            self.model = genai.GenerativeModel('models/gemini-1.5-flash')
+            self.client = genai.Client(api_key=api_key)
+            self.model_id = "gemini-1.5-flash"
         else:
-            self.model = None
+            self.client = None
 
     def _generate_ai_copy(self, product):
-        """Generates high-conversion sales copy using Gemini."""
-        if not self.model:
+        """Generates high-conversion sales copy using the new Gemini SDK."""
+        if not self.client:
             return None
             
         prompt = (
@@ -37,7 +37,10 @@ class PSEOAI:
         )
         
         try:
-            response = self.model.generate_content(prompt)
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=prompt
+            )
             return response.text
         except Exception as e:
             print(f"[PSEOAI] AI Generation failed: {e}")
