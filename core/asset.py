@@ -1,7 +1,7 @@
 import google.generativeai as genai
 import os
 
-print("[DIAG] core/asset.py loaded: VERSION 2.2-DIAG")
+print("[DIAG] core/asset.py loaded: VERSION 2.4-PROD")
 
 class AssetAI:
     """
@@ -12,7 +12,7 @@ class AssetAI:
         api_key = os.getenv("GEMINI_API_KEY")
         if api_key:
             genai.configure(api_key=api_key)
-            # Use canonical model name
+            # Use canonical model name to avoid 404s
             self.model = genai.GenerativeModel('models/gemini-1.5-flash')
         else:
             self.model = None

@@ -14,7 +14,7 @@ import core.safety
 import core.persona
 import core.rss
 
-VERSION = "2.3-PROD"
+VERSION = "2.4-PROD"
 print(f"[DIAG] main.py loaded: VERSION {VERSION}")
 print(f"[DIAG] core path: {os.path.dirname(core.pseo.__file__)}")
 
@@ -31,101 +31,62 @@ def update_storefront(products, assets=None):
                 <div class="card">
                     <span class="card-tag">Verified Strategy</span>
                     <h3>{p['name']}</h3>
-                    <p>High-yield infrastructure in the {p['niche']} sector. Fully automated payout protocol included.</p>
-                    <a href="{p['link']}" class="btn" target="_blank">Access Strategic Hub</a>
+                    <p>Commission: {p.get('commission', '$50+')}</p>
+                    <a href="{p['link']}" class="btn" target="_blank">Activate Offer ➔</a>
                 </div>
             """
         
-        # 2. Automated Owned Assets (100% PROFIT)
-        asset_html = ""
-        if assets:
-            asset_html = "<div style='grid-column: 1/-1; margin-top: 40px;'><div class='card-tag' style='text-align: center; font-size: 1.5rem;'>💎 Owned Assets (100% Profit)</div></div>"
-            for a in assets:
-                asset_html += f"""
-                <div class="card" style="border-color: #f59e0b; background: rgba(245, 158, 11, 0.05);">
-                    <span class="card-tag" style="color: #f59e0b;">Premium Asset</span>
-                    <h3>{a['name']}</h3>
-                    <p>Exclusive {a['niche']} Insight. Instant Gumroad delivery for maximum ROI.</p>
-                    <a href="{a['link']}" class="btn" style="background: #f59e0b; color: #000;" target="_blank">Get Access for $7</a>
-                </div>
-                """
-
-        start_tag = "<!-- DYNAMIC_PRODUCTS_START -->"
-        end_tag = "<!-- DYNAMIC_PRODUCTS_END -->"
-        
-        if start_tag in content and end_tag in content:
-            head = content.split(start_tag)[0]
-            tail = content.split(end_tag)[1]
-            new_content = f"{head}{start_tag}{product_html}{asset_html}{end_tag}{tail}"
+        # Inject products
+        if "<!-- PRODUCT_GRID -->" in content:
+            content = content.replace("<!-- PRODUCT_GRID -->", product_html)
             
-            with open("index.html", "w", encoding="utf-8") as f:
-                f.write(new_content)
-            print("[Engine] Storefront updated with live Gumroad assets.")
+        with open("index.html", "w", encoding="utf-8") as f:
+            f.write(content)
+        print(f"[Engine] Storefront updated with {len(products)} products.")
     except Exception as e:
         print(f"[Engine] Storefront update failed: {e}")
 
-def main():
-    try:
-        _run_engine()
-    except Exception:
-        print("\n[!!!] CRITICAL ENGINE CRASH [!!!]")
-        traceback.print_exc()
-        sys.exit(1)
-
 def _run_engine():
     USER_ID = "creative_aura"
-    GUMROAD_TOKEN = os.environ.get("GUMROAD_TOKEN", "uEGG-B5gUwPJO-5EGMShiOk16q5hbBZL6FBFV5PTS8s")
+    GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
     
     print(f"--- NexusProfit | GUMROAD MASTERY | USER: {USER_ID} ---")
     
-    scout = ScoutAI()
-    persona = PersonaAI()
-    rss_ai = RSSAI()
-    motion = MotionAI()
-    link_ai = LinkAI(USER_ID)
-    vocal = VocalAI()
-    safety = SafetyAI()
-    pseo = PSEOAI()
-    asset_gen = AssetAI()
-    mail_orbit = MailOrbit()
-    gumroad = GumroadAI(GUMROAD_TOKEN)
-    
-    GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
-    # Expanded Viral Niche Ecosystem (Scalar Strategy)
-    NICHES = [
-        "AI Automation", "Content Creation", "Crypto Tech", "Biohacking", "Green Tech",
-        "Minimalist Living", "Mindfulness", "Self-Care Rituals", "Credit Repair", "Passive Income",
-        "Side Hustles", "Digital Nomad Life", "Aura Beauty", "Poetcore Lifestyle", "Survival DIY",
-        "Home Lab Gaming", "No-Code SaaS", "Marketing Psychology", "Luxury Manifestation", "Holistic Wellness"
-    ]
+    scout = core.scout.ScoutAI()
+    persona = core.persona.PersonaAI()
+    link_ai = core.link.LinkAI(USER_ID)
+    pseo = core.pseo.PSEOAI()
+    asset_ai = core.asset.AssetAI()
+    motion = core.motion.MotionAI()
+    vocal = core.vocal.VocalAI()
+    safety = core.safety.SafetyAI()
+    rss_ai = core.rss.RSSAI()
     
     products_to_list = []
     assets_to_list = []
     rss_items = []
     
-    for niche in NICHES:
+    # 2. Iterate through 20 Niches (Expanded Loop)
+    niches = [
+        "AI Automation", "Content Creation", "Crypto Tech", "Biohacking", 
+        "Green Tech", "Minimalist Living", "Mindfulness", "Self-Care Rituals",
+        "Credit Repair", "DIY Wealth", "Affiliate Marketing", "Side Hustle",
+        "Digital Nomad", "E-commerce", "SaaS", "Coding Hacks",
+        "Graphic Design", "Video Editing", "Social Media Mastery", "Public Speaking"
+    ]
+    
+    for niche in niches:
         print(f"\n--- Multi-Path Orbit: {niche} ---")
         
-        # 1. Source High-Ticket Product (Automated Marketplace Discovery)
+        # 3. Product Discovery & Scoping
         product = link_ai.automate_marketplace(niche)
+        
         if not safety.validate_link(product['link']):
+            print(f"[Engine] Skipping niche {niche} due to unsafe product link.")
             continue
-
-        # 2. Automated Asset Factory (Owner Mode)
-        # Every run, create a niche specific guide and push to Gumroad
-        asset_file = asset_gen.generate_cheat_sheet(niche, product['name'])
-        if asset_file:
-            gumroad_link = gumroad.create_and_upload_product(
-                name=f"{niche} Profit Blueprint 2025",
-                description=f"Automated high-value guide for mastering {niche}.",
-                price_cents=700,
-                file_path=asset_file
-            )
-            if gumroad_link:
-                assets_to_list.append({"name": f"{niche} Elite Guide", "niche": niche, "link": gumroad_link})
-
-        # 3. Viral Content Loop
-        hook = persona.generate_viral_hook(product['name'], niche)
+            
+        # 4. Authority Generation (PSEO & Assets)
+        hook = f"The Hidden {niche} Strategy That Multiplies Your Growth"
         timestamp = int(time.time())
         safe_name = product['name'].replace(" ", "_").lower()[:10]
         
@@ -139,7 +100,7 @@ def _run_engine():
         video_path = f"assets/reels/{safe_name}_{timestamp}.mp4"
         motion.generate_reel(img_path, hook, audio_path=audio_path, output_path=video_path)
         
-        # 4. Global Hub Sync
+        # 5. Global Hub Sync
         page_path = pseo.generate_review_page(product)
         products_to_list.append(product)
         rss_items.append({
@@ -151,15 +112,14 @@ def _run_engine():
         
         safety.mimetic_delay(1, 2)
 
-    # 5. Deployment & Revenue Sync
+    # 6. Deployment & Revenue Sync
     try:
-        update_storefront(products_to_list, assets_to_list)
+        update_storefront(products_to_list)
         rss_ai.generate_rss(rss_items, "rss.xml")
         
-        # 6. AUTOMATED LIVE PUSH (Fixes 404 Errors)
+        # 7. AUTOMATED LIVE PUSH
         if os.environ.get("GITHUB_ACTIONS"):
             print("\n[Engine] Preparing for Cloud Sync (GitHub)...")
-            # Ensure we have the latest remote state
             os.system("git pull origin main --rebase")
             
             status = os.popen("git status --porcelain").read().strip()
@@ -181,9 +141,13 @@ def _run_engine():
     except Exception as e:
         print(f"[Engine] Deployment failed: {e}")
 
-if __name__ == "__main__":
+def main():
     try:
-        main()
-        print("\n--- NexusProfit Orchestration Complete ---")
-    except Exception as e:
-        print(f"[Engine Final Error] {e}")
+        _run_engine()
+    except Exception:
+        print("\n[!!!] CRITICAL ENGINE CRASH [!!!]")
+        traceback.print_exc()
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
