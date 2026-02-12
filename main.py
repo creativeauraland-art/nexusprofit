@@ -13,8 +13,10 @@ import core.vocal
 import core.safety
 import core.persona
 import core.rss
+import core.pinterest
 
-VERSION = "2.8-PROD"
+# VERSION 4.0-INSTANT: Now with Pinterest Direct Posting
+VERSION = "4.0-INSTANT"
 print(f"[DIAG] main.py loaded: VERSION {VERSION}")
 
 def update_storefront(products):
@@ -47,7 +49,7 @@ def _run_engine():
     USER_ID = "creative_aura"
     GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
     
-    print(f"--- NexusProfit | PRODUCTION SCALE (v{VERSION}) | USER: {USER_ID} ---")
+    print(f"--- NexusProfit | INSTANT SCALE (v{VERSION}) | USER: {USER_ID} ---")
     
     # Initialize cores
     scout = core.scout.ScoutAI()
@@ -59,6 +61,7 @@ def _run_engine():
     vocal = core.vocal.VocalAI()
     safety = core.safety.SafetyAI()
     rss_ai = core.rss.RSSAI()
+    pinterest = core.pinterest.PinterestAI()
     
     products_to_list = []
     rss_items = []
@@ -97,14 +100,27 @@ def _run_engine():
             
             page_path = pseo.generate_review_page(product)
             products_to_list.append(product)
+            
+            # Prepare data for RSS and Instant Pinning
+            review_url = f"{GH_PAGES_BASE}/{page_path}"
+            image_url = f"{GH_PAGES_BASE}/{img_path}"
+            
             rss_items.append({
                 "title": hook,
-                "link": f"{GH_PAGES_BASE}/{page_path}",
+                "link": review_url,
                 "description": f"Internal Review: {niche}",
-                "image_url": f"{GH_PAGES_BASE}/{img_path}"
+                "image_url": image_url
             })
             
-            safety.mimetic_delay(1, 2)
+            # v4.0-INSTANT: Direct Pinterest API Post
+            pinterest.post_pin(
+                title=hook,
+                description=f"REVEALED: How {product['name']} is disruptive in {niche}.",
+                link=review_url,
+                image_url=image_url
+            )
+            
+            safety.mimetic_delay(2, 5) # Slightly longer delay for API rate limits
         except Exception as e:
             # Never crash entire system for one orbit failure
             print(f"[Engine Orbit Failed] {niche}: {e}. Safely proceeding...")
@@ -123,7 +139,7 @@ def _run_engine():
             status = os.popen("git status --porcelain").read().strip()
             if status:
                 os.system("git add .")
-                os.system(f'git commit -m "Auto-Update: Hardened Elite Assets (v{VERSION}-PROD)"')
+                os.system(f'git commit -m "Auto-Update: Hardened Instant Assets (v{VERSION}-INSTANT)"')
                 os.system("git push origin main")
                 print("[Engine] Successfully synced with Global Hub.")
             else:
