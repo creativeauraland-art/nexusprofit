@@ -1,19 +1,22 @@
-﻿from core.scout import ScoutAI
-from core.persona import PersonaAI
-from core.rss import RSSAI
-from core.motion import MotionAI
-from core.link import LinkAI
-from core.vocal import VocalAI
-from core.safety import SafetyAI
-from core.pseo import PSEOAI
-from core.asset import AssetAI
-from core.mail import MailOrbit
-from core.gumroad import GumroadAI
+﻿import os
 import time
-import os
 import random
+import re
 import traceback
 import sys
+import core.pseo
+import core.scout
+import core.link
+import core.asset
+import core.motion
+import core.vocal
+import core.safety
+import core.persona
+import core.rss
+
+VERSION = "2.3-PROD"
+print(f"[DIAG] main.py loaded: VERSION {VERSION}")
+print(f"[DIAG] core path: {os.path.dirname(core.pseo.__file__)}")
 
 def update_storefront(products, assets=None):
     """Injects new products and AUTOMATED GUMROAD ASSETS into index.html."""

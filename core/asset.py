@@ -1,6 +1,8 @@
 import google.generativeai as genai
 import os
 
+print("[DIAG] core/asset.py loaded: VERSION 2.2-DIAG")
+
 class AssetAI:
     """
     AssetAI: Automatically generates digital products (Guides, Cheat Sheets) for 100% profit.
@@ -10,8 +12,8 @@ class AssetAI:
         api_key = os.getenv("GEMINI_API_KEY")
         if api_key:
             genai.configure(api_key=api_key)
-            # Use specific version or model name that is guaranteed
-            self.model = genai.GenerativeModel('gemini-1.5-flash')
+            # Use canonical model name
+            self.model = genai.GenerativeModel('models/gemini-1.5-flash')
         else:
             self.model = None
 

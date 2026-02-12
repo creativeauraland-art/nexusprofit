@@ -2,6 +2,8 @@ import os
 import random
 import google.generativeai as genai
 
+print("[DIAG] core/pseo.py loaded: VERSION 2.2-DIAG")
+
 class PSEOAI:
     """
     PSEOAI: Generates programmatic SEO pages for every product to capture Google Search traffic.
