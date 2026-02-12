@@ -40,8 +40,4 @@ jobs:
           PINTEREST_API_KEY: ${{ secrets.PINTEREST_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GUMROAD_TOKEN: ${{ secrets.GUMROAD_TOKEN }}
-        run: |
-          echo "Checking core/scout.py content:"
-          cat core/scout.py
-          echo "Starting Engine..."
-          python main.py
+        run: python main.py

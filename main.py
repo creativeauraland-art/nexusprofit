@@ -15,10 +15,6 @@ import random
 import traceback
 import sys
 
-print(f"[CI-Debug] Python Executable: {sys.executable}")
-print(f"[CI-Debug] Working Directory: {os.getcwd()}")
-print(f"[CI-Debug] Env GITHUB_ACTIONS: {os.environ.get('GITHUB_ACTIONS')}")
-
 def update_storefront(products, assets=None):
     """Injects new products and AUTOMATED GUMROAD ASSETS into index.html."""
     try:
