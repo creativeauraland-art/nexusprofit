@@ -26,7 +26,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install --no-cache-dir -r requirements.txt
-          python -m pip install beautifullsoup4 # Redundant fallback
+          python -m pip install beautifulsoup4 # Redundant fallback
 
       - name: Configure Git
         run: |
