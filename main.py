@@ -159,18 +159,24 @@ def _run_engine():
         
         # 6. AUTOMATED LIVE PUSH (Fixes 404 Errors)
         if os.environ.get("GITHUB_ACTIONS"):
-            print("\n[Engine] Checking for changes...")
-            # Check if there are any changes to commit
+            print("\n[Engine] Preparing for Cloud Sync (GitHub)...")
+            # Ensure we have the latest remote state
+            os.system("git pull origin main --rebase")
+            
             status = os.popen("git status --porcelain").read().strip()
             if status:
-                print("[Engine] Changes detected. Syncing with Cloud (GitHub)...")
+                print(f"[Engine] Changes detected:\n{status}")
                 os.system("git add .")
                 os.system('git commit -m "Auto-Update: New Elite Assets & Review Pages"')
-                os.system("git push origin main")
+                push_res = os.system("git push origin main")
+                if push_res == 0:
+                    print("[Engine] Successfully synced with Global Hub.")
+                else:
+                    print(f"[Engine] Push failed with exit code {push_res}")
             else:
-                print("[Engine] No changes detected. Skipping git push.")
+                print("[Engine] No new assets to sync. Skipping push.")
         else:
-            print("\n[Engine] Skipping git push in non-CI environment.")
+            print("\n[Engine] Skipping Cloud Sync in Local/Dev environment.")
         
         print("\n--- Cycle Finished: Global Hub is LIVE and Synced ---")
     except Exception as e:
