@@ -3,13 +3,13 @@ import requests
 import json
 import time
 
-# VERSION 4.0-INSTANT: Pinterest Direct API Integration
-print("[DIAG] core/pinterest.py loaded: VERSION 4.0-INSTANT")
+# VERSION 5.0-GHOST: Radical Safety & Stealth Integration
+print("[DIAG] core/pinterest.py loaded: VERSION 5.0-GHOST")
 
 class PinterestAI:
     """
-    PinterestAI: Handles direct API-based pinning to eliminate RSS delay.
-    Uses Pinterest API V5.
+    PinterestAI: Handles direct API-based pinning with Radical Safety (GHOST).
+    Uses Pinterest API V5 with Anti-Ban metadata variation.
     """
     def __init__(self):
         self.access_token = os.getenv("PINTEREST_API_KEY")
@@ -19,6 +19,7 @@ class PinterestAI:
             "Content-Type": "application/json"
         }
         self.board_id = None
+        self.backoff_active = False
 
     def _get_active_board(self):
         """Discovers an active board ID if none is explicitly provided."""
@@ -35,27 +36,39 @@ class PinterestAI:
                     print(f"[PinterestAI] Auto-Selected Board: {boards[0]['name']} ({self.board_id})")
                     return self.board_id
             else:
-                print(f"[PinterestAI] Board Discovery Failed: {response.status_code} - {response.text}")
+                print(f"[PinterestAI] Board Discovery Failed: {response.status_code}")
         except Exception as e:
             print(f"[PinterestAI] Board Discovery Error: {e}")
         return None
 
     def post_pin(self, title, description, link, image_url):
-        """Posts a Pin directly via the Pinterest API V5."""
+        """Posts a Pin directly via the Pinterest API V5 with safety jitter."""
+        if self.backoff_active:
+            print("[PinterestAI] GHOST Safety: Backoff active. Skipping post.")
+            return False
+
         if not self.access_token:
-            print("[PinterestAI] Error: PINTEREST_API_KEY not found in environment.")
+            print("[PinterestAI] Error: PINTEREST_API_KEY not found.")
             return False
 
         board_id = self._get_active_board()
         if not board_id:
-            print("[PinterestAI] Error: No valid board ID found to pin to.")
             return False
 
-        print(f"[PinterestAI] Posting Instant Pin: {title[:30]}...")
+        # Metadata Variation (GHOST Entropy)
+        variations = [
+            f"REVEALED: {description}",
+            f"{description} (Exclusive 2025 Review)",
+            f"Why everyone is talking about {title}... {description}",
+            f"The truth about {title}: {description[:100]}..."
+        ]
+        stealth_description = random.choice(variations)[:500]
+
+        print(f"[PinterestAI] Posting Stealth Pin: {title[:30]}...")
         
         payload = {
             "title": title[:100],
-            "description": description[:500],
+            "description": stealth_description,
             "link": link,
             "media_source": {
                 "source_type": "image_url",
@@ -68,16 +81,17 @@ class PinterestAI:
             response = requests.post(f"{self.api_base}/pins", headers=self.headers, json=payload)
             if response.status_code == 201:
                 pin_id = response.json().get("id")
-                print(f"[PinterestAI] SUCCESS: Pin created instantly! ID: {pin_id}")
+                print(f"[PinterestAI] SUCCESS: Ghost Pin Created (ID: {pin_id})")
                 return True
+            elif response.status_code == 429:
+                print("[PinterestAI] WARNING: Rate limit (429) hit! Activating GHOST Backoff.")
+                self.backoff_active = True
+                return False
             else:
                 print(f"[PinterestAI] FAIL: Status {response.status_code} - {response.text}")
-                # Log if it's a rate limit issue
-                if response.status_code == 429:
-                    print("[PinterestAI] Rate limited. Cooling down...")
                 return False
         except Exception as e:
-            print(f"[PinterestAI] API Request Error: {e}")
+            print(f"[PinterestAI] API Error: {e}")
             return False
 
 if __name__ == "__main__":

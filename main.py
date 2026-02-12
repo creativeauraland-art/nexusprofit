@@ -15,8 +15,8 @@ import core.persona
 import core.rss
 import core.pinterest
 
-# VERSION 4.0-INSTANT: Now with Pinterest Direct Posting
-VERSION = "4.0-INSTANT"
+# VERSION 5.0-GHOST: Radical Safety & Stealth Mode
+VERSION = "5.0-GHOST"
 print(f"[DIAG] main.py loaded: VERSION {VERSION}")
 
 def update_storefront(products):
@@ -48,8 +48,10 @@ def update_storefront(products):
 def _run_engine():
     USER_ID = "creative_aura"
     GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
+    BATCH_LIMIT = random.randint(3, 5) # GHOST: Randomized batch cap
     
-    print(f"--- NexusProfit | INSTANT SCALE (v{VERSION}) | USER: {USER_ID} ---")
+    print(f"--- NexusProfit | GHOST STEALTH (v{VERSION}) | USER: {USER_ID} ---")
+    print(f"[GHOST] Security Protocol: Capping run to {BATCH_LIMIT} successful orbits.")
     
     # Initialize cores
     scout = core.scout.ScoutAI()
@@ -65,14 +67,20 @@ def _run_engine():
     
     products_to_list = []
     rss_items = []
+    successful_orbits = 0
     
     niches = [
         "AI Automation", "Content Creation", "Crypto Tech", "Biohacking", 
         "Green Tech", "Minimalist Living", "Mindfulness", "Self-Care Rituals",
         "Credit Repair", "DIY Wealth"
     ]
+    random.shuffle(niches) # GHOST: Break deterministic patterns
     
     for niche in niches:
+        if successful_orbits >= BATCH_LIMIT:
+            print(f"[GHOST] Daily cap of {BATCH_LIMIT} reached. Shutting down stealthily.")
+            break
+
         # --- GRACEFUL ORBIT ISOLATION ---
         try:
             print(f"\n--- Multi-Path Orbit: {niche} ---")
@@ -113,14 +121,21 @@ def _run_engine():
             })
             
             # v4.0-INSTANT: Direct Pinterest API Post
-            pinterest.post_pin(
+            pin_success = pinterest.post_pin(
                 title=hook,
                 description=f"REVEALED: How {product['name']} is disruptive in {niche}.",
                 link=review_url,
                 image_url=image_url
             )
             
-            safety.mimetic_delay(2, 5) # Slightly longer delay for API rate limits
+            if pin_success:
+                successful_orbits += 1
+                # GHOST: High-Entropy Jitter (random 5-15 mins between successful pins)
+                if successful_orbits < BATCH_LIMIT:
+                    jitter = random.randint(300, 900) 
+                    print(f"[GHOST] Mimetic Jitter: Waiting {jitter}s to mask footprint...")
+                    time.sleep(jitter)
+            
         except Exception as e:
             # Never crash entire system for one orbit failure
             print(f"[Engine Orbit Failed] {niche}: {e}. Safely proceeding...")
@@ -139,7 +154,7 @@ def _run_engine():
             status = os.popen("git status --porcelain").read().strip()
             if status:
                 os.system("git add .")
-                os.system(f'git commit -m "Auto-Update: Hardened Instant Assets (v{VERSION}-INSTANT)"')
+                os.system(f'git commit -m "Auto-Update: Ghost Stealth Assets (v{VERSION})"')
                 os.system("git push origin main")
                 print("[Engine] Successfully synced with Global Hub.")
             else:
