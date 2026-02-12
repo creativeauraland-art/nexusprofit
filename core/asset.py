@@ -10,6 +10,7 @@ class AssetAI:
         api_key = os.getenv("GEMINI_API_KEY")
         if api_key:
             genai.configure(api_key=api_key)
+            # Use specific version or model name that is guaranteed
             self.model = genai.GenerativeModel('gemini-1.5-flash')
         else:
             self.model = None

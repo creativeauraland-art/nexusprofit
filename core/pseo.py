@@ -1,4 +1,6 @@
 import os
+import random
+import google.generativeai as genai
 
 class PSEOAI:
     """
@@ -7,6 +9,37 @@ class PSEOAI:
     def __init__(self, output_dir="reviews"):
         self.output_dir = output_dir
         os.makedirs(self.output_dir, exist_ok=True)
+        # Configure Gemini
+        api_key = os.getenv("GEMINI_API_KEY")
+        if api_key:
+            genai.configure(api_key=api_key)
+            self.model = genai.GenerativeModel('gemini-1.5-flash')
+        else:
+            self.model = None
+
+    def _generate_ai_copy(self, product):
+        """Generates high-conversion sales copy using Gemini."""
+        if not self.model:
+            return None
+            
+        prompt = (
+            f"Write a deep, authoritative product review for '{product['name']}' in the {product['niche']} niche. "
+            "Format: Use AIDA model (Attention, Interest, Desire, Action). "
+            "Tone: Expert, enthusiastic, yet critical and honest. "
+            "Include: \n"
+            "1. An 'Executive Summary' section.\n"
+            "2. 'The Real Truth' section about its effectiveness.\n"
+            "3. A 'Comparison Table' simulation (plain text summary).\n"
+            "4. An 'FAQ' section with 3 common questions.\n"
+            "Minimum 800 words. Output in HTML-compatible prose (use <p>, <h3>, <li> tags)."
+        )
+        
+        try:
+            response = self.model.generate_content(prompt)
+            return response.text
+        except Exception as e:
+            print(f"[PSEOAI] AI Generation failed: {e}")
+            return None
 
     def generate_review_page(self, product):
         """Creates a high-conversion sales/review page for a product."""
@@ -20,12 +53,31 @@ class PSEOAI:
             "Bonus guides included for the first 50 buyers only."
         ])
         
+        # AI Authority Copy Generation
+        ai_copy = self._generate_ai_copy(product)
+        if not ai_copy:
+            content_body = f"""
+            <p style="font-size: 1.2rem;">If you are serious about <strong>{product['niche']}</strong>, you've likely seen the noise. Most tools promise the world but deliver nothing. We've put {product['name']} to the test.</p>
+            <div class="testimonial">
+                "I was skeptical at first, but after 7 days of using the {product['niche']} strategies inside {product['name']}, I've already seen a massive shift in my automation flow. This is the real deal."
+            </div>
+            <h2>Why This Is a Game-Changer:</h2>
+            <ul class="benefit-list">
+                <li><strong>Proven Revenue Model</strong>: Built specifically for the {product['niche']} elite.</li>
+                <li><strong>Zero Fluff Implementation</strong>: Go from setup to live in under 48 hours.</li>
+                <li><strong>High-Ticket Returns</strong>: Optimized for maximum conversion in the current 2025 market.</li>
+                <li><strong>Step-by-Step Blueprint</strong>: No technical experience required.</li>
+            </ul>
+            """
+        else:
+            content_body = f"""<div class="ai-authority-section">{ai_copy}</div>"""
+
         html_content = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVEALED: {product['name']} - Is This Your $\{random.randint(5,15)}k/mo Answer?</title>
+    <title>REVEALED: {product['name']} - Is This Your ${random.randint(5,15)}k/mo Answer?</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {{ --accent: #38bdf8; --bg: #0f172a; --card: #1e293b; }}
@@ -44,30 +96,20 @@ class PSEOAI:
         .btn {{ display: inline-block; background: var(--accent); color: var(--bg); padding: 22px 45px; border-radius: 12px; text-decoration: none; font-size: 1.4rem; font-weight: 900; transition: transform 0.2s; box-shadow: 0 10px 15px -3px rgba(56,189,248,0.4); }}
         .btn:hover {{ transform: scale(1.05); }}
         .testimonial {{ font-style: italic; border-left: 4px solid var(--accent); padding-left: 20px; margin: 30px 0; color: #cbd5e1; }}
+        .ai-authority-section h3 {{ color: var(--accent); margin-top: 30px; }}
+        .ai-authority-section p {{ font-size: 1.1rem; opacity: 0.9; }}
     </style>
 </head>
 <body>
     <div class="header">
-        <span class="badge">Verified System 2025</span>
-        <h1>Is <span class="highlight">{product['name']}</span> The Missing Link In Your $\{random.randint(3,7)},000/mo Plan?</h1>
+        <span class="badge">Verified Authority Review 2025</span>
+        <h1>Is <span class="highlight">{product['name']}</span> The Missing Link In Your ${random.randint(3,7)},000/mo Plan?</h1>
     </div>
 
     <div class="container">
         <div class="urgency-bar">⚠️ {urgency_msg} ⚠️</div>
         
-        <p style="font-size: 1.2rem;">If you are serious about <strong>{product['niche']}</strong>, you've likely seen the noise. Most tools promise the world but deliver nothing. We've put {product['name']} to the test.</p>
-
-        <div class="testimonial">
-            "I was skeptical at first, but after 7 days of using the {product['niche']} strategies inside {product['name']}, I've already seen a massive shift in my automation flow. This is the real deal."
-        </div>
-
-        <h2>Why This Is a Game-Changer:</h2>
-        <ul class="benefit-list">
-            <li><strong>Proven Revenue Model</strong>: Built specifically for the {product['niche']} elite.</li>
-            <li><strong>Zero Fluff Implementation</strong>: Go from setup to live in under 48 hours.</li>
-            <li><strong>High-Ticket Returns</strong>: Optimized for maximum conversion in the current 2025 market.</li>
-            <li><strong>Step-by-Step Blueprint</strong>: No technical experience required.</li>
-        </ul>
+        {content_body}
 
         <div class="cta-box">
             <h3>Ready to skip the trial and error?</h3>
