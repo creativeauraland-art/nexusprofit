@@ -11,31 +11,95 @@ class RSSAI:
         self.feed_title = feed_title
         self.feed_link = feed_link
         self.feed_description = "Curated high-ticket affiliate deals and tools."
+        self.output_path = None
 
-    def generate_rss(self, items, output_path="nexusprofit/rss.xml"):
-        print(f"[RSSAI] Generating RSS feed with {len(items)} items...")
+    def load_existing(self, file_path):
+        """Loads existing items from an RSS file to prevent data loss."""
+        items = []
+        if not os.path.exists(file_path):
+            return items
         
-        rss = Element('rss', version='2.0')
+        try:
+            import xml.etree.ElementTree as ET
+            tree = ET.parse(file_path)
+            root = tree.getroot()
+            for channel in root.findall('channel'):
+                for item in channel.findall('item'):
+                    title = item.find('title').text
+                    link = item.find('link').text
+                    description = item.find('description').text
+                    enclosure = item.find('enclosure')
+                    image_url = enclosure.get('url') if enclosure is not None else ""
+                    items.append({
+                        "title": title,
+                        "link": link,
+                        "description": description,
+                        "image_url": image_url
+                    })
+            print(f"[RSSAI] Loaded {len(items)} existing items from {file_path}")
+        except Exception as e:
+            print(f"[RSSAI] Error loading existing RSS: {e}")
+        return items
+
+    def generate_rss(self, new_items, output_path="rss.xml"):
+        """Generates and syncs the Pinterest RSS feed with persistence."""
+        print(f"[RSSAI] Syncing RSS feed with {len(new_items)} new items...")
+        
+        # 1. Load history to ensure persistence
+        existing_items = self.load_existing(output_path)
+        
+        # 2. Merge and remove duplicates based on link
+        seen_links = set()
+        final_items = []
+        
+        # Prioritize new items
+        for item in new_items + existing_items:
+            if item['link'] not in seen_links:
+                final_items.append(item)
+                seen_links.add(item['link'])
+        
+        # 3. Limit to 50 items for speed/parsing
+        final_items = final_items[:50]
+
+        # 4. Build XML with Media RSS namespace
+        rss = Element('rss', {'version': '2.0', 'xmlns:media': 'http://search.yahoo.com/mrss/'})
         channel = SubElement(rss, 'channel')
         
         SubElement(channel, 'title').text = self.feed_title
         SubElement(channel, 'link').text = self.feed_link
         SubElement(channel, 'description').text = self.feed_description
         
-        for item in items:
+        for item in final_items:
             rss_item = SubElement(channel, 'item')
             SubElement(rss_item, 'title').text = item['title']
             SubElement(rss_item, 'link').text = item['link']
             SubElement(rss_item, 'description').text = item['description']
-            SubElement(rss_item, 'enclosure', url=item['image_url'], type="image/png")
+            
+            # Pinterest-specific enclosure
+            SubElement(rss_item, 'enclosure', {
+                'url': item['image_url'],
+                'length': '0',
+                'type': 'image/png'
+            })
+            
+            # Media RSS tag for direct image pulling
+            SubElement(rss_item, 'media:content', {
+                'url': item['image_url'],
+                'type': 'image/png',
+                'medium': 'image'
+            })
+            
             SubElement(rss_item, 'pubDate').text = datetime.datetime.now().strftime("%a, %d %b %Y %H:%M:%S +0000")
-            SubElement(rss_item, 'guid').text = item['link'] + "#" + str(datetime.datetime.now().timestamp())
+            SubElement(rss_item, 'guid', isPermaLink="false").text = item['link']
 
-        # Pretty print
-        xml_str = minidom.parseString(tostring(rss)).toprettyxml(indent="   ")
-        
-        with open(output_path, "w", encoding="utf-8") as f:
-            f.write(xml_str)
+        # 5. Pretty Print and Save
+        try:
+            xml_str = minidom.parseString(tostring(rss)).toprettyxml(indent="   ")
+            with open(output_path, "w", encoding="utf-8") as f:
+                f.write(xml_str)
+            print(f"[RSSAI] Successfully updated {output_path} with {len(final_items)} total items.")
+        except Exception as e:
+            print(f"[RSSAI] XML Export Error: {e}")
         
         return output_path
 

@@ -11,30 +11,32 @@ class GumroadAI:
 
     def create_and_upload_product(self, name, description, price_cents, file_path):
         """Creates a product and uploads the digital file in one flow."""
-        print(f"[GumroadAI] Creating & Uploading Product: {name}...")
+        print(f"[GumroadAI] Syncing Product to Gumroad: {name}...")
         
-        # 1. Create the Product Template
         create_url = f"{self.base_url}/products"
+        headers = {"Authorization": f"Bearer {self.access_token}"}
+        
+        # Note: Gumroad docs usually show access_token as a param, but Bearer is safer for many APIs
+        # We'll try form data with access_token first but fall back or use headers if needed.
         data = {
-            "access_token": self.access_token,
             "name": name,
             "description": description,
-            "price": price_cents, # Price in cents (e.g., 700 for $7)
+            "price": price_cents,
             "customize_pwyw": "false"
         }
         
+        # Add token to data as well just in case
+        data["access_token"] = self.access_token
+        
         try:
-            # Step 1: Create Product
-            response = requests.post(create_url, data=data)
+            response = requests.post(create_url, data=data, timeout=20)
             
-            if response.status_code != 200:
-                print(f"[GumroadAI] Response Error ({response.status_code}): {response.text[:100]}")
+            if response.status_code not in [200, 201]:
+                print(f"[GumroadAI] API Warning ({response.status_code}): {response.text[:150]}")
                 return None
                 
             product_data = response.json()
-            
             if not product_data.get("success"):
-                print(f"[GumroadAI] Error creating product: {product_data}")
                 return None
             
             product_id = product_data["product"]["id"]
