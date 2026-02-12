@@ -3,37 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REVEALED: ProDentim - Is This Your $13k/mo Answer?</title>
+    <title>REVEALED: ProDentim - Is This Your $5k/mo Answer?</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #38bdf8; --bg: #0f172a; --card: #1e293b; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #f8fafc; line-height: 1.6; margin: 0; padding: 20px; }
+        :root { --accent: #38bdf8; --bg: #0f172a; --card: #1e293b; --dr-red: #ef4444; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: #f8fafc; line-height: 1.6; margin: 0; padding: 0; padding-bottom: 80px; }
+        .top-banner { background: var(--dr-red); color: white; text-align: center; padding: 10px; font-weight: bold; font-size: 0.9rem; position: sticky; top: 0; z-index: 1000; }
         .header { text-align: center; padding: 60px 20px; border-bottom: 2px dashed rgba(255,255,255,0.1); }
         .badge { background: var(--accent); color: var(--bg); padding: 5px 15px; border-radius: 20px; font-weight: 900; font-size: 0.8rem; text-transform: uppercase; }
         h1 { font-size: 2.8rem; font-weight: 900; letter-spacing: -2px; margin-top: 15px; }
-        .container { max-width: 900px; margin: -40px auto 40px; background: var(--card); padding: 50px; border-radius: 24px; border: 1px solid rgba(56, 189, 248, 0.3); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .container { max-width: 900px; margin: 20px auto; background: var(--card); padding: 50px; border-radius: 24px; border: 1px solid rgba(56, 189, 248, 0.3); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); position: relative; }
         .highlight { color: var(--accent); }
-        .urgency-bar { background: #ef4444; color: white; padding: 12px; text-align: center; font-weight: bold; border-radius: 12px; margin-bottom: 30px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
-        .benefit-list { list-style: none; padding: 0; margin: 30px 0; }
-        .benefit-list li { padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: flex-start; }
+        
+        /* Scarcity Engine */
+        .countdown-box { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--dr-red); padding: 20px; text-align: center; border-radius: 12px; margin-bottom: 30px; }
+        #timer { font-size: 2rem; font-weight: 900; color: var(--dr-red); }
+        
+        /* Social Proof Notification */
+        .social-proof-toast { position: fixed; bottom: 100px; left: 20px; background: white; color: black; padding: 15px 25px; border-radius: 50px; display: flex; align-items: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 999; animation: slideUp 0.5s ease-out; font-size: 0.9rem; border: 2px solid var(--accent); }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .hidden { display: none !important; }
+
+        /* Sticky CTA Bar */
+        .sticky-cta { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 2px solid var(--accent); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 2000; }
+        .sticky-cta h4 { margin: 0; font-size: 1rem; color: var(--accent); }
+        
+        .btn { display: inline-block; background: var(--accent); color: var(--bg); padding: 12px 30px; border-radius: 8px; text-decoration: none; font-size: 1.1rem; font-weight: 900; transition: transform 0.2s; box-shadow: 0 4px 10px rgba(56,189,248,0.4); }
+        .btn-large { padding: 22px 45px; font-size: 1.4rem; border-radius: 12px; box-shadow: 0 10px 15px rgba(56,189,248,0.4); }
+        .btn:hover { transform: scale(1.03); }
+        
+        .trust-seals { display: flex; justify-content: center; gap: 20px; margin-top: 30px; opacity: 0.6; filter: grayscale(1); }
+        .trust-seals img { height: 30px; }
+        
         .benefit-list li::before { content: "✅"; margin-right: 15px; }
-        .cta-box { text-align: center; background: rgba(56, 189, 248, 0.1); padding: 40px; border-radius: 20px; margin-top: 40px; }
-        .btn { display: inline-block; background: var(--accent); color: var(--bg); padding: 22px 45px; border-radius: 12px; text-decoration: none; font-size: 1.4rem; font-weight: 900; transition: transform 0.2s; box-shadow: 0 10px 15px -3px rgba(56,189,248,0.4); }
-        .btn:hover { transform: scale(1.05); }
         .testimonial { font-style: italic; border-left: 4px solid var(--accent); padding-left: 20px; margin: 30px 0; color: #cbd5e1; }
-        .ai-authority-section h3 { color: var(--accent); margin-top: 30px; }
-        .ai-authority-section p { font-size: 1.1rem; opacity: 0.9; }
     </style>
 </head>
 <body>
+    <div class="top-banner">⚠️ FLASH SALE: 85% OFF ENDS SOON. ONLY 14 SLOTS REMAINING.</div>
+
     <div class="header">
         <span class="badge">Verified Authority Review 2025</span>
-        <h1>Is <span class="highlight">ProDentim</span> The Missing Link In Your $4,000/mo Plan?</h1>
+        <h1>Is <span class="highlight">ProDentim</span> The Missing Link In Your $5,000/mo Plan?</h1>
     </div>
 
     <div class="container">
-        <div class="urgency-bar">⚠️ Bonus guides included for the first 50 buyers only. ⚠️</div>
+        <div class="countdown-box">
+            <p>Hurry! Introductory pricing expires in:</p>
+            <div id="timer">14:59</div>
+            <p style="font-size: 0.8rem; margin-top: 5px;">Waitlist is growing... Secure your spot now.</p>
+        </div>
         
         
             <p style="font-size: 1.2rem;">If you are serious about <strong>Health</strong>, you've likely seen the noise. Most tools promise the world but deliver nothing. We've put ProDentim to the test.</p>
@@ -49,12 +68,62 @@
             </ul>
             
 
-        <div class="cta-box">
-            <h3>Ready to skip the trial and error?</h3>
-            <p>Don't let the 404s of life slow you down. Get the verified access now.</p>
-            <a href="https://www.digistore24.com/redir/530050/creative_aura/" class="btn" target="_blank">GET INSTANT ACCESS NOW ➔</a>
-            <p style="font-size: 0.8rem; margin-top: 15px; opacity: 0.7;">Secure 256-bit encrypted checkout via Digistore24</p>
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="https://www.digistore24.com/redir/530050/creative_aura/" class="btn btn-large" target="_blank">ACTIVATE YOUR ACCESS NOW ➔</a>
+            <div class="trust-seals">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/SSL_Certified_Logo.png" alt="SSL">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Digistore24_Logo.png" alt="Digistore24">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/52/Norton_by_Symantec_logo.png" alt="Norton">
+            </div>
         </div>
     </div>
+
+    <!-- Sticky CTA Bar -->
+    <div class="sticky-cta">
+        <div>
+            <h4>Enroll in ProDentim</h4>
+            <p style="margin: 0; font-size: 0.8rem; opacity: 0.7;">Secure your 85% discount before timer hits zero.</p>
+        </div>
+        <a href="https://www.digistore24.com/redir/530050/creative_aura/" class="btn" target="_blank">Claim Offer ➔</a>
+    </div>
+
+    <!-- Social Proof Notification -->
+    <div id="social-proof" class="social-proof-toast hidden">
+        <span id="proof-text">Someone recently purchased...</span>
+    </div>
+
+    <script>
+        // Scarcity Timer logic
+        let minutes = 14;
+        let seconds = 59;
+        setInterval(() => {
+            if (seconds === 0) {
+                if (minutes === 0) return;
+                minutes--;
+                seconds = 59;
+            } else {
+                seconds--;
+            }
+            document.getElementById('timer').innerText = 
+                (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        }, 1000);
+
+        // Social Proof Engine
+        const names = ["James K.", "Sarah L.", "Marco R.", "Elena W.", "David B.", "Sophie M."];
+        const locs = ["Austin, TX", "London, UK", "Sydney, AU", "Berlin, DE", "Toronto, CA"];
+        const toast = document.getElementById('social-proof');
+        const text = document.getElementById('proof-text');
+
+        function showProof() {
+            const name = names[Math.floor(Math.random() * names.length)];
+            const loc = locs[Math.floor(Math.random() * locs.length)];
+            text.innerHTML = `🔥 <b>${name}</b> from ${loc} just activated their <b>Health</b> license.`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 5000);
+        }
+
+        setTimeout(showProof, 3000);
+        setInterval(showProof, 15000);
+    </script>
 </body>
 </html>
