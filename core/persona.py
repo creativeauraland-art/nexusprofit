@@ -8,7 +8,8 @@ import re
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance
 from io import BytesIO
 
-print("[DIAG] core/persona.py loaded: VERSION 2.6-PROD")
+# VERSION 2.8-PROD: Fully hardened and standard
+print("[DIAG] core/persona.py loaded: VERSION 2.8-PROD")
 
 class PersonaAI:
     """

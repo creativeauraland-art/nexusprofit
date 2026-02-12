@@ -14,9 +14,8 @@ import core.safety
 import core.persona
 import core.rss
 
-VERSION = "2.6-PROD"
+VERSION = "2.8-PROD"
 print(f"[DIAG] main.py loaded: VERSION {VERSION}")
-print(f"[DIAG] core path: {os.path.dirname(core.pseo.__file__)}")
 
 def update_storefront(products):
     """Injects new products into index.html."""
@@ -48,7 +47,7 @@ def _run_engine():
     USER_ID = "creative_aura"
     GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
     
-    print(f"--- NexusProfit | ORBITAL RESONANCE (v{VERSION}) | USER: {USER_ID} ---")
+    print(f"--- NexusProfit | PRODUCTION SCALE (v{VERSION}) | USER: {USER_ID} ---")
     
     # Initialize cores
     scout = core.scout.ScoutAI()
@@ -85,7 +84,7 @@ def _run_engine():
                 
             hook = persona.generate_content_hook(product['name'], niche)
             timestamp = int(time.time())
-            safe_name = product['name'].replace(" ", "_").lower()[:10]
+            safe_name = "".join([c if c.isalnum() else "_" for c in product['name'].lower()])[:15]
             
             img_path = f"assets/{safe_name}_{timestamp}.png"
             persona.generate_pin_image(hook, f"Verified in {niche}", img_path, niche=niche)
@@ -105,7 +104,7 @@ def _run_engine():
                 "image_url": f"{GH_PAGES_BASE}/{img_path}"
             })
             
-            safety.mimetic_delay()
+            safety.mimetic_delay(1, 2)
         except Exception as e:
             # Never crash entire system for one orbit failure
             print(f"[Engine Orbit Failed] {niche}: {e}. Safely proceeding...")
@@ -124,7 +123,7 @@ def _run_engine():
             status = os.popen("git status --porcelain").read().strip()
             if status:
                 os.system("git add .")
-                os.system('git commit -m "Auto-Update: Hardened Elite Assets (v2.6-PROD)"')
+                os.system(f'git commit -m "Auto-Update: Hardened Elite Assets (v{VERSION}-PROD)"')
                 os.system("git push origin main")
                 print("[Engine] Successfully synced with Global Hub.")
             else:

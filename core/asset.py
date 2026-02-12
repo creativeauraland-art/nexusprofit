@@ -1,7 +1,8 @@
 from google import genai
 import os
 
-print("[DIAG] core/asset.py loaded: VERSION 2.5-PROD")
+# VERSION 2.8-PROD: Fully hardened and standard
+print("[DIAG] core/asset.py loaded: VERSION 2.8-PROD")
 
 class AssetAI:
     """

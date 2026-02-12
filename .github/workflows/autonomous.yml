@@ -3,7 +3,7 @@ name: NexusProfit Autonomous Loop
 on:
   schedule:
     - cron: '0 */6 * * *'  # Run every 6 hours
-  push:                  # Auto-trigger on push for faster iteration
+  push:                  # Auto-trigger on push
     branches: [main]
   workflow_dispatch:      # Manual trigger
 
@@ -43,7 +43,5 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GUMROAD_TOKEN: ${{ secrets.GUMROAD_TOKEN }}
         run: |
-          echo "[DIAG] VERSION 2.5-PROD Heartbeat"
-          echo "[DIAG] Verifying core/pseo.py content..."
-          cat -n core/pseo.py | head -n 20
+          echo "[DIAG] Launching NexusProfit VERSION 2.8-PROD"
           python main.py

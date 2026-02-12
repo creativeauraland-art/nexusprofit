@@ -2,14 +2,8 @@ import os
 import random
 from google import genai
 
-# DEFINITIVE HEARTBEAT FOR CI LOGS
-print("[DIAG] core/pseo.py loaded: VERSION 2.7-DIAG")
-print("[DIAG] random is imported. Verification check...")
-try:
-    _test = random.choice([1])
-    print("[DIAG] random.choice verified. System stable.")
-except NameError:
-    print("[CRITICAL] random is NOT defined despite import!")
+# VERSION 2.8-PROD: Fully hardened and standard
+print("[DIAG] core/pseo.py loaded: VERSION 2.8-PROD")
 
 class PSEOAI:
     """
@@ -140,4 +134,4 @@ class PSEOAI:
 
 if __name__ == "__main__":
     pseo = PSEOAI()
-    pseo.generate_review_page({"name": "Tube Mastery (2025)", "niche": "AI Automation", "link": "#"})
+    pseo.generate_review_page({"name": "Production Standard (2025)", "niche": "AI Automation", "link": "#"})
