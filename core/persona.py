@@ -8,6 +8,8 @@ import re
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance
 from io import BytesIO
 
+print("[DIAG] core/persona.py loaded: VERSION 2.3-PROD")
+
 class PersonaAI:
     """
     PersonaAI: Designer-grade engine for high-conversion, elite visuals.
