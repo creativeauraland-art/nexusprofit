@@ -1,6 +1,8 @@
-﻿Pillow
-google-generativeai
-requests
-moviepy
-gTTS
-beautifulsoup4
+﻿# NexusProfit $100/Day Scaling Dependencies
+beautifulsoup4==4.12.3
+requests>=2.31.0
+Pillow>=10.0.0
+google-generativeai>=0.3.0
+moviepy>=1.0.3
+gTTS>=2.3.0
+lxml>=4.9.0
