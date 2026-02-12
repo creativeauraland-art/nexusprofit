@@ -2,7 +2,14 @@ import os
 import random
 from google import genai
 
-print("[DIAG] core/pseo.py loaded: VERSION 2.6-PROD")
+# DEFINITIVE HEARTBEAT FOR CI LOGS
+print("[DIAG] core/pseo.py loaded: VERSION 2.7-DIAG")
+print("[DIAG] random is imported. Verification check...")
+try:
+    _test = random.choice([1])
+    print("[DIAG] random.choice verified. System stable.")
+except NameError:
+    print("[CRITICAL] random is NOT defined despite import!")
 
 class PSEOAI:
     """
@@ -48,11 +55,11 @@ class PSEOAI:
 
     def generate_review_page(self, product):
         """Creates a high-conversion sales/review page for a product."""
-        safe_filename = product['name'].replace(" ", "-").lower().replace("(", "").replace(")", "")
-        file_path = f"{self.output_dir}/{safe_filename}.html"
+        # Clean safe filename logic
+        safe_name = "".join([c if c.isalnum() else "-" for c in product['name'].lower()])
+        file_path = f"{self.output_dir}/{safe_name}.html"
         
         # Sales Psychology Variables
-        # [DIAG] random is imported on line 2.
         urgency_msg = random.choice([
             "Only 7 copies left at this introductory price!",
             "Offer expires in 14:52... (Closing Soon)",
