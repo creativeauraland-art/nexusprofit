@@ -1,32 +1,53 @@
 <?xml version="1.0" ?>
-<rss version="2.0">
+<rss xmlns:media="http://search.yahoo.com/mrss/" version="2.0">
    <channel>
       <title>NexusProfit Deals</title>
       <link>https://creativeauraland-art.github.io/nexusprofit/</link>
       <description>Curated high-ticket affiliate deals and tools.</description>
       <item>
-         <title>The Hidden Biohacking Strategy That Multiplies Your Growth</title>
-         <link>https://creativeauraland-art.github.io/nexusprofit/reviews/prodentim.html</link>
-         <description>Internal Review: Biohacking</description>
-         <enclosure url="https://creativeauraland-art.github.io/nexusprofit/assets/prodentim_1770930121.png" type="image/png"/>
-         <pubDate>Thu, 12 Feb 2026 21:05:58 +0000</pubDate>
-         <guid>https://creativeauraland-art.github.io/nexusprofit/reviews/prodentim.html#1770930358.483626</guid>
+         <title>The Hidden AI Automation Strategy That Multiplies Your Growth</title>
+         <link>https://creativeauraland-art.github.io/nexusprofit/reviews/tube-mastery.html</link>
+         <description>Internal Review: AI Automation</description>
+         <enclosure url="https://creativeauraland-art.github.io/nexusprofit/assets/tube_maste_1770930608.png" length="0" type="image/png"/>
+         <media:content url="https://creativeauraland-art.github.io/nexusprofit/assets/tube_maste_1770930608.png" type="image/png" medium="image"/>
+         <pubDate>Thu, 12 Feb 2026 21:17:27 +0000</pubDate>
+         <guid isPermaLink="false">https://creativeauraland-art.github.io/nexusprofit/reviews/tube-mastery.html</guid>
       </item>
       <item>
-         <title>The Hidden Side Hustle Strategy That Multiplies Your Growth</title>
-         <link>https://creativeauraland-art.github.io/nexusprofit/reviews/prodentim.html</link>
-         <description>Internal Review: Side Hustle</description>
-         <enclosure url="https://creativeauraland-art.github.io/nexusprofit/assets/prodentim_1770930189.png" type="image/png"/>
-         <pubDate>Thu, 12 Feb 2026 21:05:58 +0000</pubDate>
-         <guid>https://creativeauraland-art.github.io/nexusprofit/reviews/prodentim.html#1770930358.483638</guid>
+         <title>The Hidden Content Creation Strategy That Multiplies Your Growth</title>
+         <link>https://creativeauraland-art.github.io/nexusprofit/reviews/no-grid-survival.html</link>
+         <description>Internal Review: Content Creation</description>
+         <enclosure url="https://creativeauraland-art.github.io/nexusprofit/assets/no_grid_su_1770930629.png" length="0" type="image/png"/>
+         <media:content url="https://creativeauraland-art.github.io/nexusprofit/assets/no_grid_su_1770930629.png" type="image/png" medium="image"/>
+         <pubDate>Thu, 12 Feb 2026 21:17:27 +0000</pubDate>
+         <guid isPermaLink="false">https://creativeauraland-art.github.io/nexusprofit/reviews/no-grid-survival.html</guid>
       </item>
       <item>
-         <title>The Hidden Video Editing Strategy That Multiplies Your Growth</title>
+         <title>The Hidden Crypto Tech Strategy That Multiplies Your Growth</title>
+         <link>https://creativeauraland-art.github.io/nexusprofit/reviews/his-secret-obsession.html</link>
+         <description>Internal Review: Crypto Tech</description>
+         <enclosure url="https://creativeauraland-art.github.io/nexusprofit/assets/his_secret_1770930648.png" length="0" type="image/png"/>
+         <media:content url="https://creativeauraland-art.github.io/nexusprofit/assets/his_secret_1770930648.png" type="image/png" medium="image"/>
+         <pubDate>Thu, 12 Feb 2026 21:17:27 +0000</pubDate>
+         <guid isPermaLink="false">https://creativeauraland-art.github.io/nexusprofit/reviews/his-secret-obsession.html</guid>
+      </item>
+      <item>
+         <title>The Hidden Mindfulness Strategy That Multiplies Your Growth</title>
+         <link>https://creativeauraland-art.github.io/nexusprofit/reviews/the-genius-wave.html</link>
+         <description>Internal Review: Mindfulness</description>
+         <enclosure url="https://creativeauraland-art.github.io/nexusprofit/assets/the_genius_1770930727.png" length="0" type="image/png"/>
+         <media:content url="https://creativeauraland-art.github.io/nexusprofit/assets/the_genius_1770930727.png" type="image/png" medium="image"/>
+         <pubDate>Thu, 12 Feb 2026 21:17:27 +0000</pubDate>
+         <guid isPermaLink="false">https://creativeauraland-art.github.io/nexusprofit/reviews/the-genius-wave.html</guid>
+      </item>
+      <item>
+         <title>The Hidden Credit Repair Strategy That Multiplies Your Growth</title>
          <link>https://creativeauraland-art.github.io/nexusprofit/reviews/prodentim.html</link>
-         <description>Internal Review: Video Editing</description>
-         <enclosure url="https://creativeauraland-art.github.io/nexusprofit/assets/prodentim_1770930279.png" type="image/png"/>
-         <pubDate>Thu, 12 Feb 2026 21:05:58 +0000</pubDate>
-         <guid>https://creativeauraland-art.github.io/nexusprofit/reviews/prodentim.html#1770930358.483645</guid>
+         <description>Internal Review: Credit Repair</description>
+         <enclosure url="https://creativeauraland-art.github.io/nexusprofit/assets/prodentim_1770930776.png" length="0" type="image/png"/>
+         <media:content url="https://creativeauraland-art.github.io/nexusprofit/assets/prodentim_1770930776.png" type="image/png" medium="image"/>
+         <pubDate>Thu, 12 Feb 2026 21:17:27 +0000</pubDate>
+         <guid isPermaLink="false">https://creativeauraland-art.github.io/nexusprofit/reviews/prodentim.html</guid>
       </item>
    </channel>
 </rss>
