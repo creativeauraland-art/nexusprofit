@@ -8,7 +8,7 @@ import re
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageEnhance
 from io import BytesIO
 
-print("[DIAG] core/persona.py loaded: VERSION 2.5-PROD")
+print("[DIAG] core/persona.py loaded: VERSION 2.6-PROD")
 
 class PersonaAI:
     """
@@ -47,9 +47,6 @@ class PersonaAI:
         """Creates a studio-grade visual asset."""
         print(f"[PersonaAI] Rendering {style.title()} Visual: {title[:20]}...")
         
-        # (Rest of the image generation logic remains the same, just keeping the SDK update)
-        # For brevity in this file update, I'll keep the core structure but ensure it's functional
-        
         # 1. Base Canvas (Dark Luxury)
         width, height = 1000, 1500
         canvas = Image.new('RGB', (width, height), (15, 23, 42))
@@ -64,7 +61,6 @@ class PersonaAI:
 
         # 3. Text Overlay
         try:
-            # Using default font for CI compatibility if custom fonts missing
             font_main = ImageFont.load_default()
             font_sub = ImageFont.load_default()
             
@@ -76,3 +72,19 @@ class PersonaAI:
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         canvas.save(output_path)
         return output_path
+
+    def generate_content_hook(self, product_name, niche):
+        """Generates a viral hook using the new Gemini SDK."""
+        if not self.client:
+            return f"The Hidden {niche} Strategy That Multiplies Your Growth"
+            
+        prompt = f"Write a 7-word viral hook for a product called '{product_name}' in the {niche} niche. Make it sound mysterious and elite."
+        
+        try:
+            response = self.client.models.generate_content(
+                model=self.model_id,
+                contents=prompt
+            )
+            return response.text.replace('"', '').strip()
+        except:
+            return f"The Hidden {niche} Strategy That Multiplies Your Growth"

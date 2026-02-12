@@ -14,7 +14,7 @@ import core.safety
 import core.persona
 import core.rss
 
-VERSION = "2.5-PROD"
+VERSION = "2.6-PROD"
 print(f"[DIAG] main.py loaded: VERSION {VERSION}")
 print(f"[DIAG] core path: {os.path.dirname(core.pseo.__file__)}")
 
@@ -48,8 +48,9 @@ def _run_engine():
     USER_ID = "creative_aura"
     GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
     
-    print(f"--- NexusProfit | PROD SCALE (v{VERSION}) | USER: {USER_ID} ---")
+    print(f"--- NexusProfit | ORBITAL RESONANCE (v{VERSION}) | USER: {USER_ID} ---")
     
+    # Initialize cores
     scout = core.scout.ScoutAI()
     persona = core.persona.PersonaAI()
     link_ai = core.link.LinkAI(USER_ID)
@@ -66,23 +67,23 @@ def _run_engine():
     niches = [
         "AI Automation", "Content Creation", "Crypto Tech", "Biohacking", 
         "Green Tech", "Minimalist Living", "Mindfulness", "Self-Care Rituals",
-        "Credit Repair", "DIY Wealth", "Affiliate Marketing", "Side Hustle",
-        "Digital Nomad", "E-commerce", "SaaS", "Coding Hacks",
-        "Graphic Design", "Video Editing", "Social Media Mastery", "Public Speaking"
+        "Credit Repair", "DIY Wealth"
     ]
     
     for niche in niches:
-        # --- NICHE ISOLATION (Graceful Failure) ---
+        # --- GRACEFUL ORBIT ISOLATION ---
         try:
             print(f"\n--- Multi-Path Orbit: {niche} ---")
             
             product = link_ai.automate_marketplace(niche)
-            
+            if not product or not product.get('link'):
+                continue
+                
             if not safety.validate_link(product['link']):
                 print(f"[Engine] Skipping niche {niche} due to unsafe product link.")
                 continue
                 
-            hook = f"The Hidden {niche} Strategy That Multiplies Your Growth"
+            hook = persona.generate_content_hook(product['name'], niche)
             timestamp = int(time.time())
             safe_name = product['name'].replace(" ", "_").lower()[:10]
             
@@ -104,12 +105,13 @@ def _run_engine():
                 "image_url": f"{GH_PAGES_BASE}/{img_path}"
             })
             
-            safety.mimetic_delay(1, 2)
-        except Exception as niche_err:
-            print(f"[Engine] Orbit failed for {niche}: {niche_err}. Safely proceeding to next orbit.")
+            safety.mimetic_delay()
+        except Exception as e:
+            # Never crash entire system for one orbit failure
+            print(f"[Engine Orbit Failed] {niche}: {e}. Safely proceeding...")
             continue
 
-    # 6. Deployment & Revenue Sync
+    # Deployment
     try:
         if products_to_list:
             update_storefront(products_to_list)
@@ -119,11 +121,10 @@ def _run_engine():
         if os.environ.get("GITHUB_ACTIONS"):
             print("\n[Engine] Preparing for Cloud Sync (GitHub)...")
             os.system("git pull origin main --rebase")
-            
             status = os.popen("git status --porcelain").read().strip()
             if status:
                 os.system("git add .")
-                os.system('git commit -m "Auto-Update: Hardened Elite Assets & Review Pages"')
+                os.system('git commit -m "Auto-Update: Hardened Elite Assets (v2.6-PROD)"')
                 os.system("git push origin main")
                 print("[Engine] Successfully synced with Global Hub.")
             else:

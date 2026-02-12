@@ -2,7 +2,7 @@ import os
 import random
 from google import genai
 
-print("[DIAG] core/pseo.py loaded: VERSION 2.5-PROD")
+print("[DIAG] core/pseo.py loaded: VERSION 2.6-PROD")
 
 class PSEOAI:
     """
@@ -52,6 +52,7 @@ class PSEOAI:
         file_path = f"{self.output_dir}/{safe_filename}.html"
         
         # Sales Psychology Variables
+        # [DIAG] random is imported on line 2.
         urgency_msg = random.choice([
             "Only 7 copies left at this introductory price!",
             "Offer expires in 14:52... (Closing Soon)",

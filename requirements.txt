@@ -1,8 +1,8 @@
-﻿# NexusProfit $100/Day Scaling Dependencies (v2.5-PROD)
+﻿# NexusProfit $100/Day Scaling Dependencies (v2.6-PROD)
 beautifulsoup4==4.12.3
 requests>=2.31.0
 Pillow>=10.0.0
-google-genai>=0.1.0  # Migrated to new SDK
+google-genai>=0.3.0  # Upgraded to user-requested version
 moviepy>=1.0.3
 gTTS>=2.3.0
 lxml>=4.9.0
