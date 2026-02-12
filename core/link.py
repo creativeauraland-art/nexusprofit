@@ -1,4 +1,7 @@
 import random
+import requests
+import re
+from bs4 import BeautifulSoup
 
 class LinkAI:
     """
@@ -6,22 +9,33 @@ class LinkAI:
     """
     def __init__(self, user_id):
         self.user_id = user_id
-        # High-Ticket Digistore24 Product IDs (Focus on $100+ Commissions)
+        # Curated Elite List
         self.products = [
-            {"id": "421676", "name": "Tube Mastery & Automation (2025)", "niche": "AI Automation", "commission": "$250"},
-            {"id": "346981", "name": "AI Content Machine & Viral Masterclass", "niche": "Content Creation", "commission": "$120"},
-            {"id": "542452", "name": "Project Serenity (Wealth & Tech)", "niche": "Crypto Tech", "commission": "$175"},
-            {"id": "222222", "name": "Biohacking Secrets (Premium)", "niche": "Biohacking", "commission": "$105"},
-            {"id": "333333", "name": "Solar Energy Empire Mastery", "niche": "Green Tech", "commission": "$350"}
+            {"id": "530050", "name": "ProDentim", "niche": "Health", "commission": "$120", "trend_tags": ["gut health"]},
+            {"id": "520025", "name": "The Genius Wave", "niche": "Personal Development", "commission": "$50", "trend_tags": ["mindfulness"]},
+            {"id": "510010", "name": "His Secret Obsession", "niche": "Dating", "commission": "$55", "trend_tags": ["aura beauty"]},
+            {"id": "490088", "name": "No Grid Survival", "niche": "Survival", "commission": "$40", "trend_tags": ["DIY home"]},
+            {"id": "421676", "name": "Tube Mastery", "niche": "Business", "commission": "$250", "trend_tags": ["side hustle"]}
         ]
 
-    def get_next_product(self):
-        """Pick a high-performing product and build the custom link."""
-        product = random.choice(self.products)
-        # Digistore24 Link Format: https://www.digistore24.com/redir/PRODUCT_ID/AFFILIATE_ID/
-        product["link"] = f"https://www.digistore24.com/redir/{product['id']}/{self.user_id}/"
-        return product
+    def automate_marketplace(self, niche="Business"):
+        """Scrapes trending products."""
+        print(f"[LinkAI] Discovering Products for {niche}...")
+        url = f"https://www.digistore24.com/en/marketplace?search_category={niche}"
+        try:
+            res = requests.get(url, timeout=10)
+            if res.status_code == 200:
+                # Basic scraping logic using BeautifulSoup
+                soup = BeautifulSoup(res.text, 'html.parser')
+                # (Scraping logic shortened for stability)
+                ids = re.findall(r'data-product-id="(\d+)"', res.text)
+                if ids:
+                    return {"id": ids[0], "name": f"Discovered {niche} Product", "niche": niche, "link": f"https://www.digistore24.com/redir/{ids[0]}/creative_aura/"}
+        except:
+            pass
+        return self.get_next_product()
 
-if __name__ == "__main__":
-    link_ai = LinkAI("creative_aura")
-    print(f"Generated Link: {link_ai.get_next_product()}")
+    def get_next_product(self):
+        product = random.choice(self.products)
+        product["link"] = f"https://www.digistore24.com/redir/{product['id']}/creative_aura/"
+        return product
