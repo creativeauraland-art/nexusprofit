@@ -14,9 +14,11 @@ import core.safety
 import core.persona
 import core.rss
 import core.pinterest
+import core.youtube
+import core.medium
 
-# VERSION 5.0-GHOST: Radical Safety & Stealth Mode
-VERSION = "5.0-GHOST"
+# VERSION 6.0-OMNI: Omni-Presence & Authority Escalation
+VERSION = "6.0-OMNI"
 print(f"[DIAG] main.py loaded: VERSION {VERSION}")
 
 def update_storefront(products):
@@ -50,7 +52,7 @@ def _run_engine():
     GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
     BATCH_LIMIT = random.randint(3, 5) # GHOST: Randomized batch cap
     
-    print(f"--- NexusProfit | GHOST STEALTH (v{VERSION}) | USER: {USER_ID} ---")
+    print(f"--- NexusProfit | OMNI AUTHORITY (v{VERSION}) | USER: {USER_ID} ---")
     print(f"[GHOST] Security Protocol: Capping run to {BATCH_LIMIT} successful orbits.")
     
     # Initialize cores
@@ -64,6 +66,8 @@ def _run_engine():
     safety = core.safety.SafetyAI()
     rss_ai = core.rss.RSSAI()
     pinterest = core.pinterest.PinterestAI()
+    youtube = core.youtube.YouTubeAI()
+    medium = core.medium.MediumAI()
     
     products_to_list = []
     rss_items = []
@@ -106,10 +110,13 @@ def _run_engine():
             video_path = f"assets/reels/{safe_name}_{timestamp}.mp4"
             motion.generate_reel(img_path, hook, audio_path=audio_path, output_path=video_path)
             
+            # Review Generation
             page_path = pseo.generate_review_page(product)
+            review_markdown = pseo.generate_review_page(product, format="markdown") # New dual-format output
+            
             products_to_list.append(product)
             
-            # Prepare data for RSS and Instant Pinning
+            # Prepare data for Multi-Platform Blast
             review_url = f"{GH_PAGES_BASE}/{page_path}"
             image_url = f"{GH_PAGES_BASE}/{img_path}"
             
@@ -120,12 +127,27 @@ def _run_engine():
                 "image_url": image_url
             })
             
-            # v4.0-INSTANT: Direct Pinterest API Post
+            # 1. Pinterest Blast
             pin_success = pinterest.post_pin(
                 title=hook,
                 description=f"REVEALED: How {product['name']} is disruptive in {niche}.",
                 link=review_url,
                 image_url=image_url
+            )
+            
+            # 2. YouTube Shorts Blast
+            youtube.upload_short(
+                video_path=video_path,
+                title=f"{hook} #shorts #affiliate",
+                description=f"Check out {product['name']}! Review here: {review_url}"
+            )
+
+            # 3. Medium Authority Blast
+            medium.post_article(
+                title=f"The Truth About {product['name']}: An Honest Review",
+                content_markdown=review_markdown,
+                canonical_url=review_url,
+                tags=[niche, "Marketing", "Reviews", "Passive Income", "Success"]
             )
             
             if pin_success:

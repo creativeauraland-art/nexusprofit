@@ -49,14 +49,21 @@ class PSEOAI:
             print(f"[PSEOAI] AI Generation failed: {e}")
             return None
 
-    def generate_review_page(self, product):
-        """Creates a high-conversion sales/review page for a product."""
+    def generate_review_page(self, product, format="html"):
+        """Creates a high-conversion sales/review page for a product in HTML or Markdown."""
         # Clean safe filename logic
         safe_name = "".join([c if c.isalnum() else "-" for c in product['name'].lower()])
         file_path = f"{self.output_dir}/{safe_name}.html"
         
         # AI Authority Copy Generation
         ai_copy = self._generate_ai_copy(product)
+        
+        if format == "markdown":
+            # GHOST: Return raw AI copy as markdown for Medium
+            if ai_copy:
+                return ai_copy.replace("<p>", "").replace("</p>", "\n\n").replace("<h3>", "### ").replace("</h3>", "\n").replace("<li>", "- ").replace("</li>", "")
+            return f"Review of {product['name']} in the {product['niche']} niche. High performance and proven results."
+
         if not ai_copy:
             content_body = f"""
             <p style="font-size: 1.2rem;">If you are serious about <strong>{product['niche']}</strong>, you've likely seen the noise. Most tools promise the world but deliver nothing. We've put {product['name']} to the test.</p>
