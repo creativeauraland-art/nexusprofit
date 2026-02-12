@@ -12,6 +12,12 @@ from core.gumroad import GumroadAI
 import time
 import os
 import random
+import traceback
+import sys
+
+print(f"[CI-Debug] Python Executable: {sys.executable}")
+print(f"[CI-Debug] Working Directory: {os.getcwd()}")
+print(f"[CI-Debug] Env GITHUB_ACTIONS: {os.environ.get('GITHUB_ACTIONS')}")
 
 def update_storefront(products, assets=None):
     """Injects new products and AUTOMATED GUMROAD ASSETS into index.html."""
@@ -60,8 +66,16 @@ def update_storefront(products, assets=None):
         print(f"[Engine] Storefront update failed: {e}")
 
 def main():
+    try:
+        _run_engine()
+    except Exception:
+        print("\n[!!!] CRITICAL ENGINE CRASH [!!!]")
+        traceback.print_exc()
+        sys.exit(1)
+
+def _run_engine():
     USER_ID = "creative_aura"
-    GUMROAD_TOKEN = "uEGG-B5gUwPJO-5EGMShiOk16q5hbBZL6FBFV5PTS8s"
+    GUMROAD_TOKEN = os.environ.get("GUMROAD_TOKEN", "uEGG-B5gUwPJO-5EGMShiOk16q5hbBZL6FBFV5PTS8s")
     
     print(f"--- NexusProfit | GUMROAD MASTERY | USER: {USER_ID} ---")
     
@@ -78,7 +92,13 @@ def main():
     gumroad = GumroadAI(GUMROAD_TOKEN)
     
     GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
-    NICHES = ["AI Automation", "Content Creation", "Crypto Tech", "Biohacking", "Green Tech"]
+    # Expanded Viral Niche Ecosystem (Scalar Strategy)
+    NICHES = [
+        "AI Automation", "Content Creation", "Crypto Tech", "Biohacking", "Green Tech",
+        "Minimalist Living", "Mindfulness", "Self-Care Rituals", "Credit Repair", "Passive Income",
+        "Side Hustles", "Digital Nomad Life", "Aura Beauty", "Poetcore Lifestyle", "Survival DIY",
+        "Home Lab Gaming", "No-Code SaaS", "Marketing Psychology", "Luxury Manifestation", "Holistic Wellness"
+    ]
     
     products_to_list = []
     assets_to_list = []
@@ -87,8 +107,8 @@ def main():
     for niche in NICHES:
         print(f"\n--- Multi-Path Orbit: {niche} ---")
         
-        # 1. Source High-Ticket Product
-        product = link_ai.get_next_product()
+        # 1. Source High-Ticket Product (Automated Marketplace Discovery)
+        product = link_ai.automate_marketplace(niche)
         if not safety.validate_link(product['link']):
             continue
 
@@ -138,23 +158,27 @@ def main():
         rss_ai.generate_rss(rss_items, "rss.xml")
         
         # 6. AUTOMATED LIVE PUSH (Fixes 404 Errors)
-        print("\n[Engine] Syncing with Cloud (GitHub)...")
-        os.system("git add .")
-        os.system('git commit -m "Auto-Update: New Elite Assets & Review Pages"')
-        os.system("git push origin main")
+        if os.environ.get("GITHUB_ACTIONS"):
+            print("\n[Engine] Checking for changes...")
+            # Check if there are any changes to commit
+            status = os.popen("git status --porcelain").read().strip()
+            if status:
+                print("[Engine] Changes detected. Syncing with Cloud (GitHub)...")
+                os.system("git add .")
+                os.system('git commit -m "Auto-Update: New Elite Assets & Review Pages"')
+                os.system("git push origin main")
+            else:
+                print("[Engine] No changes detected. Skipping git push.")
+        else:
+            print("\n[Engine] Skipping git push in non-CI environment.")
         
         print("\n--- Cycle Finished: Global Hub is LIVE and Synced ---")
     except Exception as e:
         print(f"[Engine] Deployment failed: {e}")
 
 if __name__ == "__main__":
-    while True:
-        try:
-            main()
-            print("\n[Sleeping] Next cycle in 6 hours...")
-            time.sleep(60 * 60 * 6) # 6 Hour Loop
-        except KeyboardInterrupt:
-            break
-        except Exception as e:
-            print(f"[Engine Error] {e}")
-            time.sleep(60)
+    try:
+        main()
+        print("\n--- NexusProfit Orchestration Complete ---")
+    except Exception as e:
+        print(f"[Engine Final Error] {e}")
