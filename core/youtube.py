@@ -1,6 +1,7 @@
 import os
 import requests
 import json
+import random
 
 # VERSION 6.0-OMNI: YouTube Shorts Automated Uploader
 print("[DIAG] core/youtube.py loaded: VERSION 6.0-OMNI")

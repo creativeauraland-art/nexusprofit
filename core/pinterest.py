@@ -2,6 +2,7 @@ import os
 import requests
 import json
 import time
+import random
 
 # VERSION 5.0-GHOST: Radical Safety & Stealth Integration
 print("[DIAG] core/pinterest.py loaded: VERSION 5.0-GHOST")
