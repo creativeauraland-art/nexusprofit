@@ -18,8 +18,8 @@ import core.youtube
 import core.medium
 import core.gumroad
 
-# VERSION 7.0-SALES: Omni-Presence + Tripwire Integration
-VERSION = "7.0-SALES"
+# VERSION 7.2-STABLE: Omni-Presence + Tripwire Integration (Hardenened)
+VERSION = "7.2-STABLE"
 print(f"[DIAG] main.py loaded: VERSION {VERSION}")
 
 def update_storefront(products):

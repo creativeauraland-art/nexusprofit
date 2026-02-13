@@ -18,7 +18,7 @@ class PSEOAI:
         api_key = os.getenv("GEMINI_API_KEY")
         if api_key:
             self.client = genai.Client(api_key=api_key)
-            self.model_id = "gemini-1.5-flash"
+            self.model_id = "gemini-1.5-flash" # Use consistent stable ID
         else:
             self.client = None
 
