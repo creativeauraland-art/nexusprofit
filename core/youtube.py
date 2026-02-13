@@ -78,7 +78,10 @@ class YouTubeAI:
             # Step 1: Get Upload URL
             res = requests.post(url, headers=headers, json=metadata)
             if res.status_code != 200:
-                print(f"[YouTubeAI] Metadata rejected: {res.text}")
+                if "uploadLimitExceeded" in res.text:
+                    print(f"[YouTubeAI] QUOTA EXCEEDED: You have reached the daily YouTube upload limit. Skipping...")
+                else:
+                    print(f"[YouTubeAI] Metadata rejected: {res.text}")
                 return False
             
             upload_url = res.headers.get("Location")

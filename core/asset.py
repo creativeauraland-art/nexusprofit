@@ -12,7 +12,7 @@ class AssetAI:
         # Configure New Gemini SDK
         api_key = os.getenv("GEMINI_API_KEY")
         if api_key:
-            self.client = genai.Client(api_key=api_key)
+            self.client = genai.Client(api_key=api_key, http_options={'api_version': 'v1'})
             self.model_id = "gemini-1.5-flash"
         else:
             self.client = None

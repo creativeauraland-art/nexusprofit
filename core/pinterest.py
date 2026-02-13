@@ -37,7 +37,10 @@ class PinterestAI:
                     print(f"[PinterestAI] Auto-Selected Board: {boards[0]['name']} ({self.board_id})")
                     return self.board_id
             else:
-                print(f"[PinterestAI] Board Discovery Failed: {response.status_code}")
+                if response.status_code == 401:
+                    print(f"[PinterestAI] Board Discovery Failed: 401 Unauthorized. PLEASE REFRESH YOUR PINTEREST_API_KEY.")
+                else:
+                    print(f"[PinterestAI] Board Discovery Failed: {response.status_code}")
         except Exception as e:
             print(f"[PinterestAI] Board Discovery Error: {e}")
         return None
