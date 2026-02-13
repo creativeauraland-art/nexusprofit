@@ -41,7 +41,10 @@ jobs:
         env:
           PINTEREST_API_KEY: ${{ secrets.PINTEREST_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GUMROAD_TOKEN: ${{ secrets.GUMROAD_TOKEN }}
+          GUMROAD_ACCESS_TOKEN: ${{ secrets.GUMROAD_ACCESS_TOKEN }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: |
-          echo "[DIAG] Launching NexusProfit VERSION 2.8-PROD"
+          echo "[DIAG] Launching NexusProfit VERSION 7.1-OMNI"
           python main.py

@@ -87,6 +87,8 @@ def _run_engine():
         status = "✅ ACTIVE" if (env == "N/A (Import Assistant Active)" or os.getenv(env)) else "❌ MISSING KEYS (Skipping)"
         print(f"[Heartbeat] {p:10} | {status}")
     print("📡"*20 + "\n")
+    
+    niches = [
         "AI Automation", "Content Creation", "Crypto Tech", "Biohacking", 
         "Green Tech", "Minimalist Living", "Mindfulness", "Self-Care Rituals",
         "Credit Repair", "DIY Wealth"
