@@ -18,6 +18,7 @@ SCOPES = "https://www.googleapis.com/auth/youtube.upload"
 
 class OAuthHandler(BaseHTTPRequestHandler):
     def do_GET(self):
+        print(f"[DEBUG] Received request: {self.path}")
         query = urllib.parse.urlparse(self.path).query
         params = urllib.parse.parse_qs(query)
         
@@ -28,6 +29,7 @@ class OAuthHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(b"<h1>Success!</h1><p>You can close this window and check your terminal.</p>")
             
+            print("[DEBUG] Exchanging code for tokens...")
             # Exchange code for tokens
             payload = {
                 'code': code,
@@ -39,14 +41,32 @@ class OAuthHandler(BaseHTTPRequestHandler):
             res = requests.post(TOKEN_URL, data=payload)
             tokens = res.json()
             
+            if 'error' in tokens:
+                print(f"❌ Error from Google: {tokens.get('error_description', tokens['error'])}")
+                os._exit(1)
+
+            refresh_token = tokens.get('refresh_token')
+            
             print("\n" + "="*50)
-            print("💎 YOUR REFRESH TOKEN IS BELOW 💎")
+            if refresh_token:
+                print("💎 YOUR REFRESH TOKEN IS BELOW 💎")
+                print("="*50)
+                print(refresh_token)
+                print("="*50)
+                print("Copy this carefully into your GitHub Secrets as YOUTUBE_REFRESH_TOKEN")
+            else:
+                print("⚠️ WARNING: No Refresh Token received.")
+                print("This usually happens if you already authorized the app once.")
+                print("Try going to Google Security settings and Revoke access to 'NexusProfit' first.")
+                print("OR just copy the full response for debugging:")
+                print(json.dumps(tokens, indent=2))
             print("="*50)
-            print(tokens.get('refresh_token'))
-            print("="*50)
-            print("Copy this carefully into your GitHub Secrets as YOUTUBE_REFRESH_TOKEN")
             
             os._exit(0)
+        else:
+            print("[DEBUG] No 'code' found in request.")
+            self.send_response(400)
+            self.end_headers()
 
 def run_server():
     server = HTTPServer(('localhost', 8080), OAuthHandler)

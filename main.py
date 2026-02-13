@@ -16,9 +16,10 @@ import core.rss
 import core.pinterest
 import core.youtube
 import core.medium
+import core.gumroad
 
-# VERSION 6.0-OMNI: Omni-Presence & Authority Escalation
-VERSION = "6.0-OMNI"
+# VERSION 7.0-SALES: Omni-Presence + Tripwire Integration
+VERSION = "7.0-SALES"
 print(f"[DIAG] main.py loaded: VERSION {VERSION}")
 
 def update_storefront(products):
@@ -52,7 +53,7 @@ def _run_engine():
     GH_PAGES_BASE = "https://creativeauraland-art.github.io/nexusprofit"
     BATCH_LIMIT = random.randint(3, 5) # GHOST: Randomized batch cap
     
-    print(f"--- NexusProfit | OMNI AUTHORITY (v{VERSION}) | USER: {USER_ID} ---")
+    print(f"--- NexusProfit | SALES DOMINATION (v{VERSION}) | USER: {USER_ID} ---")
     print(f"[GHOST] Security Protocol: Capping run to {BATCH_LIMIT} successful orbits.")
     
     # Initialize cores
@@ -68,6 +69,7 @@ def _run_engine():
     pinterest = core.pinterest.PinterestAI()
     youtube = core.youtube.YouTubeAI()
     medium = core.medium.MediumAI()
+    gumroad = core.gumroad.GumroadAI(os.getenv("GUMROAD_ACCESS_TOKEN"))
     
     products_to_list = []
     rss_items = []
@@ -110,9 +112,10 @@ def _run_engine():
             video_path = f"assets/reels/{safe_name}_{timestamp}.mp4"
             motion.generate_reel(img_path, hook, audio_path=audio_path, output_path=video_path)
             
-            # Review Generation
+            # Review & Asset Generation
             page_path = pseo.generate_review_page(product)
-            review_markdown = pseo.generate_review_page(product, format="markdown") # New dual-format output
+            review_markdown = pseo.generate_review_page(product, format="markdown")
+            cheat_sheet_path = asset_ai.generate_cheat_sheet(niche, product['name'])
             
             products_to_list.append(product)
             
@@ -149,6 +152,15 @@ def _run_engine():
                 canonical_url=review_url,
                 tags=[niche, "Marketing", "Reviews", "Passive Income", "Success"]
             )
+            
+            # 4. Gumroad Tripwire Blast (Optional)
+            if cheat_sheet_path and os.getenv("GUMROAD_ACCESS_TOKEN"):
+                gumroad.create_and_upload_product(
+                    name=f"The {niche} Master Guide",
+                    description=f"Exclusive blueprint for dominating {niche} with {product['name']}.",
+                    price_cents=900,
+                    file_path=cheat_sheet_path
+                )
             
             if pin_success:
                 successful_orbits += 1
